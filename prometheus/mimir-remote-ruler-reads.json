@@ -211,7 +211,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "reqps",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -360,7 +360,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "histogram_quantile(0.99, sum by(le, pod) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-frontend.*))\", route=~\"/httpgrpc.HTTP/Handle|.*api_v1_query\"}[$__rate_interval])))",
+              "expr": "histogram_quantile(0.99, sum by(le, instance) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-frontend.*))\", route=~\"/httpgrpc.HTTP/Handle|.*api_v1_query\"}[$__rate_interval])))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
@@ -368,7 +368,7 @@
               "step": 10
             }
           ],
-          "title": "Per pod p99 latency",
+          "title": "Per instance p99 latency",
           "type": "timeseries"
         }
       ],
@@ -423,7 +423,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/(ruler-query-scheduler.*)\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-z]+)\"))\n",
+              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-scheduler.*))\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-z]+)\"))\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{status}}",
@@ -450,7 +450,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "reqps",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -499,7 +499,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/(ruler-query-scheduler.*)\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "histogram_quantile(0.99, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-scheduler.*))\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "99th Percentile",
@@ -507,7 +507,7 @@
               "step": 10
             },
             {
-              "expr": "histogram_quantile(0.50, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/(ruler-query-scheduler.*)\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "histogram_quantile(0.50, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-scheduler.*))\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "50th Percentile",
@@ -515,7 +515,7 @@
               "step": 10
             },
             {
-              "expr": "sum(rate(cortex_query_scheduler_queue_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/(ruler-query-scheduler.*)\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/(ruler-query-scheduler.*)\"}[$__rate_interval]))",
+              "expr": "sum(rate(cortex_query_scheduler_queue_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-scheduler.*))\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-scheduler.*))\"}[$__rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Average",
@@ -638,7 +638,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "reqps",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -787,7 +787,7 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "histogram_quantile(0.99, sum by(le, pod) (rate(cortex_querier_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-querier.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}[$__rate_interval])))",
+              "expr": "histogram_quantile(0.99, sum by(le, instance) (rate(cortex_querier_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-querier.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}[$__rate_interval])))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
@@ -795,7 +795,7 @@
               "step": 10
             }
           ],
-          "title": "Per pod p99 latency",
+          "title": "Per instance p99 latency",
           "type": "timeseries"
         }
       ],
@@ -1029,7 +1029,7 @@
               "expr": "sum by(metric) (rate(keda_metrics_adapter_scaler_errors[$__rate_interval])) +\non(metric) group_left\nlabel_replace(\n    kube_horizontalpodautoscaler_spec_target_metric{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=\"keda-hpa-ruler-querier\"}\n    * 0, \"metric\", \"$1\", \"metric_name\", \"(.+)\"\n)\n",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "Failures per second",
+              "legendFormat": "{{metric}} failures",
               "legendLink": null,
               "step": 10
             }
