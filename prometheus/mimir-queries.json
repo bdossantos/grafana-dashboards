@@ -2089,7 +2089,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(data_type) (rate(cortex_bucket_store_series_data_fetched_sum{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval]))",
+              "expr": "sum by(data_type) (\n  # non-streaming store-gateway will not have the stage label on any fetched metrics\n  rate(cortex_bucket_store_series_data_fetched_sum{component=\"store-gateway\", stage=\"\", cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])\n  or\n  # streaming store-gateway with new caching will have overlapping metrics for fetched chunks data; we select only the most narrow one - \"fetched\"\n  rate(cortex_bucket_store_series_data_fetched_sum{component=\"store-gateway\", data_type=\"chunks\", stage=\"fetched\", cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])\n)\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{data_type}}",
@@ -2165,7 +2165,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(data_type) (rate(cortex_bucket_store_series_data_touched_sum{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval]))",
+              "expr": "sum by(data_type) (\n  # non-streaming store-gateway will not have the stage label on any touched metrics\n  rate(cortex_bucket_store_series_data_touched_sum{component=\"store-gateway\", stage=\"\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])\n  or\n  # streaming store-gateway with new caching will have overlapping metrics for touched chunks data; we select only the most narrow one - \"returned\"\n  rate(cortex_bucket_store_series_data_touched_sum{component=\"store-gateway\", data_type=\"chunks\", stage=\"returned\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])\n)\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{data_type}}",
@@ -2227,7 +2227,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
-          "fill": 1,
+          "fill": 10,
           "id": 26,
           "legend": {
             "avg": false,
@@ -2239,7 +2239,7 @@
             "values": false
           },
           "lines": true,
-          "linewidth": 1,
+          "linewidth": 0,
           "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
@@ -2249,38 +2249,22 @@
           "seriesOverrides": [],
           "spaceLength": 10,
           "span": 4,
-          "stack": false,
+          "stack": true,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(rate(cortex_bucket_store_series_get_all_duration_seconds_bucket{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "sum by(stage) (rate(cortex_bucket_store_series_request_stage_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval]))\n/\nsum by(stage) (rate(cortex_bucket_store_series_request_stage_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval]))\n",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
-              "refId": "A",
-              "step": 10
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum(rate(cortex_bucket_store_series_get_all_duration_seconds_bucket{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
-              "refId": "B",
-              "step": 10
-            },
-            {
-              "expr": "sum(rate(cortex_bucket_store_series_get_all_duration_seconds_sum{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_bucket_store_series_get_all_duration_seconds_count{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C",
+              "legendFormat": "{{stage}}",
+              "legendLink": null,
               "step": 10
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Series fetch duration (per request)",
+          "title": "Series request average latency",
           "tooltip": {
             "shared": false,
             "sort": 0,
@@ -2296,7 +2280,7 @@
           },
           "yaxes": [
             {
-              "format": "ms",
+              "format": "s",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -2319,7 +2303,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
-          "fill": 1,
+          "fill": 10,
           "id": 27,
           "legend": {
             "avg": false,
@@ -2331,7 +2315,7 @@
             "values": false
           },
           "lines": true,
-          "linewidth": 1,
+          "linewidth": 0,
           "links": [],
           "nullPointMode": "null as zero",
           "percentage": false,
@@ -2341,38 +2325,22 @@
           "seriesOverrides": [],
           "spaceLength": 10,
           "span": 4,
-          "stack": false,
+          "stack": true,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(rate(cortex_bucket_store_series_merge_duration_seconds_bucket{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "histogram_quantile(0.99, sum by(stage, le) (rate(cortex_bucket_store_series_request_stage_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])))\n",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
-              "refId": "A",
-              "step": 10
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum(rate(cortex_bucket_store_series_merge_duration_seconds_bucket{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
-              "refId": "B",
-              "step": 10
-            },
-            {
-              "expr": "sum(rate(cortex_bucket_store_series_merge_duration_seconds_sum{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_bucket_store_series_merge_duration_seconds_count{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C",
+              "legendFormat": "{{stage}}",
+              "legendLink": null,
               "step": 10
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Series merge duration (per request)",
+          "title": "Series request 99th percentile latency (streaming enabled)",
           "tooltip": {
             "shared": false,
             "sort": 0,
@@ -2388,7 +2356,7 @@
           },
           "yaxes": [
             {
-              "format": "ms",
+              "format": "s",
               "label": null,
               "logBase": 1,
               "max": null,
@@ -2411,6 +2379,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
+          "description": "### Series batch preloading efficiency\nThis panel shows the % of time reduced by preloading, for Series() requests which have been\nsplit to 2+ batches. If a Series() request is served within a single batch, then preloading\nis not triggered, and thus not counted in this measurement.\n\n",
           "fill": 1,
           "id": 28,
           "legend": {
@@ -2437,10 +2406,10 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(cortex_bucket_store_series_result_series_sum{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval])) / sum(rate(cortex_bucket_store_series_result_series_count{component=\"store-gateway\",cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval]))",
+              "expr": "# Clamping min to 0 because if preloading not useful at all, then the actual value we get is\n# slightly negative because of the small overhead introduced by preloading.\nclamp_min(1 - (\n    sum(rate(cortex_bucket_store_series_batch_preloading_wait_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval]))\n    /\n    sum(rate(cortex_bucket_store_series_batch_preloading_load_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"}[$__rate_interval]))\n), 0)\n",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "avg series returned",
+              "legendFormat": "% of time reduced by preloading",
               "legendLink": null,
               "step": 10
             }
@@ -2448,7 +2417,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Series returned (per request)",
+          "title": "Series batch preloading efficiency (streaming enabled)",
           "tooltip": {
             "shared": false,
             "sort": 0,
@@ -2464,10 +2433,10 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "percentunit",
               "label": null,
               "logBase": 1,
-              "max": null,
+              "max": 1,
               "min": 0,
               "show": true
             },
