@@ -3352,6 +3352,8 @@
           "datasource": "$datasource",
           "fieldConfig": {
             "defaults": {
+              "max": 1,
+              "min": 0,
               "noValue": "0",
               "unit": "percentunit"
             }
@@ -4037,6 +4039,8 @@
           "datasource": "$datasource",
           "fieldConfig": {
             "defaults": {
+              "max": 1,
+              "min": 0,
               "noValue": "0",
               "unit": "percentunit"
             }
