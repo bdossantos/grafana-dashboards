@@ -12,7 +12,7 @@
   },
   "editable": true,
   "gnetId": null,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "hideControls": false,
   "links": [
     {
@@ -61,7 +61,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
-          "description": "### Series\nNumber of active and in-memory series per user, and active series matching custom trackers (in parenthesis).\nNote that active series matching custom trackers are included in the total active series count.\n\n",
+          "description": "### All series\nNumber of active and in-memory series per user, and active series matching custom trackers (in parenthesis).\nNote that these counts include all series regardless of the type of data (counter, gauge, native histogram, etc.).\nNote that active series matching custom trackers are included in the total active series count.\n\n",
           "fill": 1,
           "id": 2,
           "legend": {
@@ -89,7 +89,7 @@
             }
           ],
           "spaceLength": 10,
-          "span": 3,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -98,38 +98,34 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "in-memory",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_limits_overrides{cluster=~\"$cluster\", job=~\"($namespace)/((overrides-exporter|mimir-backend.*))\", limit_name=\"max_global_series_per_user\", user=\"$user\"})\nor\nmax(cortex_limits_defaults{cluster=~\"$cluster\", job=~\"($namespace)/((overrides-exporter|mimir-backend.*))\", limit_name=\"max_global_series_per_user\"})\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "sum(\n  cortex_ingester_active_series{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", user=\"$user\"}\n  / on(cluster, namespace) group_left\n  max by (cluster, namespace) (cortex_distributor_replication_factor{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\"})\n)\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "active",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "sum by (name) (\n  cortex_ingester_active_series_custom_tracker{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", user=\"$user\"}\n  / on(cluster, namespace) group_left\n  max by (cluster, namespace) (cortex_distributor_replication_factor{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\"})\n) > 0\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "active ({{ name }})",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Series",
+          "title": "All series",
           "tooltip": {
             "shared": false,
             "sort": 0,
@@ -168,9 +164,199 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
-          "description": "### Series with exemplars\nNumber of series with exemplars currently in storage.\n\n",
+          "description": "### Native histogram series\nNumber of active native histogram series per user, and active native histogram series matching custom trackers (in parenthesis).\nNote that active series matching custom trackers are included in the total active series count.\n\n",
           "fill": 1,
           "id": 3,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "limit",
+              "dashes": true,
+              "fill": 0
+            }
+          ],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(\n  cortex_ingester_active_native_histogram_series{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", user=\"$user\"}\n  / on(cluster, namespace) group_left\n  max by (cluster, namespace) (cortex_distributor_replication_factor{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\"})\n)\n",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "active",
+              "legendLink": null
+            },
+            {
+              "expr": "sum by (name) (\n  cortex_ingester_active_native_histogram_series_custom_tracker{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", user=\"$user\"}\n  / on(cluster, namespace) group_left\n  max by (cluster, namespace) (cortex_distributor_replication_factor{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\"})\n) > 0\n",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "active ({{ name }})",
+              "legendLink": null
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Native histogram series",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "description": "### Total number of buckets used by native histogram series\nTotal number of buckets in active native histogram series per user, and total active native histogram buckets matching custom trackers (in parenthesis).\n\n",
+          "fill": 1,
+          "id": 4,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "limit",
+              "dashes": true,
+              "fill": 0
+            }
+          ],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(\n  cortex_ingester_active_native_histogram_buckets{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", user=\"$user\"}\n  / on(cluster, namespace) group_left\n  max by (cluster, namespace) (cortex_distributor_replication_factor{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\"})\n)\n",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "buckets",
+              "legendLink": null
+            },
+            {
+              "expr": "sum by (name) (\n  cortex_ingester_active_native_histogram_buckets_custom_tracker{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", user=\"$user\"}\n  / on(cluster, namespace) group_left\n  max by (cluster, namespace) (cortex_distributor_replication_factor{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\"})\n) > 0\n",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "buckets ({{ name }})",
+              "legendLink": null
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Total number of buckets used by native histogram series",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Active series and native histograms",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "description": "### Series with exemplars\nNumber of series with exemplars currently in storage.\n\n",
+          "fill": 1,
+          "id": 5,
           "legend": {
             "show": false
           },
@@ -184,7 +370,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 3,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -193,8 +379,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "series",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -241,7 +426,7 @@
           "datasource": "$datasource",
           "description": "### Newest seen sample age\nThe age of the newest received sample seen in the distributors.\n\n",
           "fill": 1,
-          "id": 4,
+          "id": 6,
           "legend": {
             "show": false
           },
@@ -255,7 +440,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 3,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -264,8 +449,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "age",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -312,7 +496,7 @@
           "datasource": "$datasource",
           "description": "### Oldest exemplar age\nThe age of the oldest exemplar stored in circular storage.\nUseful to check for what time range the current exemplar buffer limit allows.\nThis usually means the max age for all exemplars for a typical setup.\nThis is not true though if one of the series timestamp is in future compared to rest series.\n\n",
           "fill": 1,
-          "id": 5,
+          "id": 7,
           "legend": {
             "show": false
           },
@@ -326,7 +510,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 3,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -335,8 +519,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "age",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -380,7 +563,7 @@
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": true,
-      "title": "Series and exemplars",
+      "title": "Samples and exemplars",
       "titleSize": "h6"
     },
     {
@@ -395,7 +578,7 @@
           "datasource": "$datasource",
           "description": "### Distributor requests incoming rate\nThe rate of requests that have come in to the distributor, including rejected requests.\n\n",
           "fill": 1,
-          "id": 6,
+          "id": 8,
           "legend": {
             "show": false
           },
@@ -418,8 +601,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -466,7 +648,7 @@
           "datasource": "$datasource",
           "description": "### Distributor requests received (accepted) rate\nThe rate of received requests, excluding rejected requests.\n\n",
           "fill": 1,
-          "id": 7,
+          "id": 9,
           "legend": {
             "avg": false,
             "current": false,
@@ -501,16 +683,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_limits_overrides{cluster=~\"$cluster\", job=~\"($namespace)/((overrides-exporter|mimir-backend.*))\", limit_name=\"request_rate\", user=\"$user\"})\nor\nmax(cortex_limits_defaults{cluster=~\"$cluster\", job=~\"($namespace)/((overrides-exporter|mimir-backend.*))\", limit_name=\"request_rate\"})\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -557,7 +737,7 @@
           "datasource": "$datasource",
           "description": "### Distributor discarded requests rate\nThe rate of each request's discarding reason.\n\n",
           "fill": 1,
-          "id": 8,
+          "id": 10,
           "legend": {
             "avg": false,
             "current": false,
@@ -586,8 +766,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{ reason }}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -646,7 +825,7 @@
           "datasource": "$datasource",
           "description": "### Distributor samples incoming rate\nThe rate of samples that have come in to the distributor, including rejected or deduped exemplars.\n\n",
           "fill": 1,
-          "id": 9,
+          "id": 11,
           "legend": {
             "show": false
           },
@@ -669,8 +848,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -717,7 +895,7 @@
           "datasource": "$datasource",
           "description": "### Distributor samples received (accepted) rate\nThe rate of received samples, excluding rejected and deduped samples.\n\n",
           "fill": 1,
-          "id": 10,
+          "id": 12,
           "legend": {
             "avg": false,
             "current": false,
@@ -752,16 +930,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_limits_overrides{cluster=~\"$cluster\", job=~\"($namespace)/((overrides-exporter|mimir-backend.*))\", limit_name=\"ingestion_rate\", user=\"$user\"})\nor\nmax(cortex_limits_defaults{cluster=~\"$cluster\", job=~\"($namespace)/((overrides-exporter|mimir-backend.*))\", limit_name=\"ingestion_rate\"})\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -808,7 +984,7 @@
           "datasource": "$datasource",
           "description": "### Distributor deduplicated/non-HA\nThe rate of deduplicated samples and the rate of received samples for a user that has HA tracking turned on, but the sample didn't contain both HA labels.\n\n",
           "fill": 1,
-          "id": 11,
+          "id": 13,
           "legend": {
             "avg": false,
             "current": false,
@@ -837,16 +1013,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "deduplicated",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "sum(rate(cortex_distributor_non_ha_samples_received_total{cluster=~\"$cluster\", job=~\"($namespace)/((distributor|cortex|mimir|mimir-write.*))\", user=\"$user\"}[$__rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "non-HA",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -893,7 +1067,7 @@
           "datasource": "$datasource",
           "description": "### Distributor and ingester discarded samples rate\nThe rate of each sample's discarding reason.\n\n",
           "fill": 1,
-          "id": 12,
+          "id": 14,
           "legend": {
             "avg": false,
             "current": false,
@@ -922,16 +1096,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{ reason }} (distributor)",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "sum by (reason) (rate(cortex_discarded_samples_total{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", user=\"$user\"}[$__rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{ reason }} (ingester)",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -990,7 +1162,7 @@
           "datasource": "$datasource",
           "description": "### Distributor exemplars incoming rate\nThe rate of exemplars that have come in to the distributor, including rejected or deduped exemplars.\n\n",
           "fill": 1,
-          "id": 13,
+          "id": 15,
           "legend": {
             "show": false
           },
@@ -1013,8 +1185,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1061,7 +1232,7 @@
           "datasource": "$datasource",
           "description": "### Distributor exemplars received (accepted) rate\nThe rate of received exemplars, excluding rejected and deduped exemplars.\nThis number can be sensibly lower than incoming rate because we dedupe the HA sent exemplars, and then reject based on time.\nSee discarded rate for reasons why exemplars are being discarded.\n\n",
           "fill": 1,
-          "id": 14,
+          "id": 16,
           "legend": {
             "show": false
           },
@@ -1084,8 +1255,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1132,7 +1302,7 @@
           "datasource": "$datasource",
           "description": "### Distributor discarded exemplars rate\nThe rate of each exmplars' discarding reason.\n\n",
           "fill": 1,
-          "id": 15,
+          "id": 17,
           "legend": {
             "avg": false,
             "current": false,
@@ -1161,8 +1331,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{ reason }}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1209,7 +1378,7 @@
           "datasource": "$datasource",
           "description": "### Ingester appended exemplars rate\nTotal number of exemplars appended in the ingesters.\nThis can be lower than ingested exemplars rate since TSDB does not append the same exemplar twice, and those can be frequent.\n\n",
           "fill": 1,
-          "id": 16,
+          "id": 18,
           "legend": {
             "show": false
           },
@@ -1232,8 +1401,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1292,7 +1460,7 @@
           "datasource": "$datasource",
           "description": "### Symbol table size for loaded blocks\nSize of symbol table in memory for loaded blocks, averaged by ingester.\n\n",
           "fill": 1,
-          "id": 17,
+          "id": 19,
           "legend": {
             "avg": false,
             "current": false,
@@ -1321,8 +1489,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{ job }}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1369,7 +1536,7 @@
           "datasource": "$datasource",
           "description": "### Space used by local blocks\nThe number of bytes that are currently used for local storage by all blocks.\n\n",
           "fill": 1,
-          "id": 18,
+          "id": 20,
           "legend": {
             "avg": false,
             "current": false,
@@ -1398,8 +1565,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{ job }}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1458,7 +1624,7 @@
           "datasource": "$datasource",
           "description": "### Number of groups\nTotal number of rule groups for a tenant.\n\n",
           "fill": 1,
-          "id": 19,
+          "id": 21,
           "legend": {
             "avg": false,
             "current": false,
@@ -1493,16 +1659,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "groups",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_limits_overrides{cluster=~\"$cluster\", job=~\"($namespace)/((overrides-exporter|mimir-backend.*))\", limit_name=\"ruler_max_rule_groups_per_tenant\", user=\"$user\"})\nor\nmax(cortex_limits_defaults{cluster=~\"$cluster\", job=~\"($namespace)/((overrides-exporter|mimir-backend.*))\", limit_name=\"ruler_max_rule_groups_per_tenant\"})\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1549,7 +1713,7 @@
           "datasource": "$datasource",
           "description": "### Number of rules\nTotal number of rules for a tenant.\n\n",
           "fill": 1,
-          "id": 20,
+          "id": 22,
           "legend": {
             "show": false
           },
@@ -1572,8 +1736,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rules",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1619,7 +1782,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 21,
+          "id": 23,
           "legend": {
             "show": false
           },
@@ -1642,8 +1805,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1689,7 +1851,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 22,
+          "id": 24,
           "legend": {
             "avg": false,
             "current": false,
@@ -1718,8 +1880,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{ rule_group }}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1777,7 +1938,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 23,
+          "id": 25,
           "legend": {
             "avg": false,
             "current": false,
@@ -1845,8 +2006,7 @@
               "instant": true,
               "intervalFactor": 2,
               "legendFormat": "",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             }
           ],
           "thresholds": [],
@@ -1893,7 +2053,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 24,
+          "id": 26,
           "legend": {
             "avg": false,
             "current": false,
@@ -1961,8 +2121,7 @@
               "instant": true,
               "intervalFactor": 2,
               "legendFormat": "",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             }
           ],
           "thresholds": [],
@@ -2021,7 +2180,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 25,
+          "id": 27,
           "legend": {
             "show": false
           },
@@ -2044,8 +2203,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -2093,7 +2251,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 26,
+          "id": 28,
           "legend": {
             "show": false
           },
@@ -2116,8 +2274,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "rate",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -2175,7 +2332,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 27,
+          "id": 29,
           "legend": {
             "avg": false,
             "current": false,
@@ -2204,178 +2361,13 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Queries / Sec",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "Rate of Read Requests - query-frontend",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 28,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(cortex_query_scheduler_queue_length{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\", user=\"$user\"})",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Queue Length",
-              "legendLink": null,
-              "step": 10
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Number of Queries Queued - query-scheduler",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "Read Path - Queries (User)",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 29,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum(rate(cortex_query_frontend_queries_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-frontend.*))\", user=\"$user\"}[$__rate_interval]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Queries / Sec",
-              "legendLink": null,
-              "step": 10
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Rate of Read Requests - ruler-query-frontend",
           "tooltip": {
             "shared": false,
             "sort": 0,
@@ -2440,12 +2432,173 @@
           "steppedLine": false,
           "targets": [
             {
+              "expr": "sum(cortex_query_scheduler_queue_length{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\", user=\"$user\"})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "Queue Length",
+              "legendLink": null
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Number of Queries Queued - query-scheduler",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Read Path - Queries (User)",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 31,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(rate(cortex_query_frontend_queries_total{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-frontend.*))\", user=\"$user\"}[$__rate_interval]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "Queries / Sec",
+              "legendLink": null
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Rate of Read Requests - ruler-query-frontend",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 32,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
               "expr": "sum(cortex_query_scheduler_queue_length{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-scheduler.*))\", user=\"$user\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Queue Length",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -2529,7 +2682,7 @@
         "query": "label_values(cortex_build_info, cluster)",
         "refresh": 1,
         "regex": "",
-        "sort": 2,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -2553,7 +2706,7 @@
         "query": "label_values(cortex_build_info{cluster=~\"$cluster\"}, namespace)",
         "refresh": 1,
         "regex": "",
-        "sort": 2,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -2576,7 +2729,7 @@
         "query": "label_values(cortex_ingester_active_series{cluster=~\"$cluster\", namespace=~\"$namespace\"}, user)",
         "refresh": 1,
         "regex": "",
-        "sort": 2,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",

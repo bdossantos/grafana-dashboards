@@ -12,7 +12,7 @@
   },
   "editable": true,
   "gnetId": null,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "hideControls": false,
   "links": [
     {
@@ -68,8 +68,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -144,8 +143,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -220,16 +218,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(query-frontend|querier|ruler-query-frontend|ruler-querier|mimir-read).*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -304,24 +300,21 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(query-frontend|querier|ruler-query-frontend|ruler-querier|mimir-read).*\"}))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(query-frontend|querier|ruler-query-frontend|ruler-querier|mimir-read).*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -408,8 +401,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -484,8 +476,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -560,16 +551,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*query-frontend.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -644,24 +633,21 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*query-frontend.*\"}))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*query-frontend.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -748,8 +734,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -824,8 +809,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -900,16 +884,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*query-scheduler.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -984,24 +966,21 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*query-scheduler.*\"}))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*query-scheduler.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1088,8 +1067,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1164,8 +1142,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1240,16 +1217,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*querier.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1324,24 +1299,21 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*querier.*\"}))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*querier.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1428,8 +1400,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1504,8 +1475,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1580,16 +1550,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*store-gateway.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1664,24 +1632,21 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*store-gateway.*\"}))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*store-gateway.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1768,8 +1733,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1844,8 +1808,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1920,16 +1883,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -2004,24 +1965,21 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "avg",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler.*\"}))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "highest",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler.*\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "limit",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -2104,7 +2062,7 @@
         "query": "label_values(cortex_build_info, cluster)",
         "refresh": 1,
         "regex": "",
-        "sort": 2,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -2127,7 +2085,7 @@
         "query": "label_values(cortex_build_info{cluster=~\"$cluster\"}, namespace)",
         "refresh": 1,
         "regex": "",
-        "sort": 2,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",

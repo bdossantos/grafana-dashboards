@@ -12,7 +12,7 @@
   },
   "editable": true,
   "gnetId": null,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "hideControls": false,
   "links": [
     {
@@ -189,8 +189,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{status}}",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             }
           ],
           "thresholds": [],
@@ -264,7 +263,7 @@
               "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-frontend.*))\", route=~\"/httpgrpc.HTTP/Handle|.*api_v1_query\"})) * 1e3",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
+              "legendFormat": "99th percentile",
               "refId": "A",
               "step": 10
             },
@@ -272,7 +271,7 @@
               "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-frontend.*))\", route=~\"/httpgrpc.HTTP/Handle|.*api_v1_query\"})) * 1e3",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
+              "legendFormat": "50th percentile",
               "refId": "B",
               "step": 10
             },
@@ -365,8 +364,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "title": "Per instance p99 latency",
@@ -429,8 +427,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{status}}",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             }
           ],
           "thresholds": [],
@@ -505,24 +502,21 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "99th Percentile",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             },
             {
               "expr": "histogram_quantile(0.50, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-scheduler.*))\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "50th Percentile",
-              "refId": "B",
-              "step": 10
+              "refId": "B"
             },
             {
               "expr": "sum(rate(cortex_query_scheduler_queue_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-scheduler.*))\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-query-scheduler.*))\"}[$__rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
+              "refId": "C"
             }
           ],
           "thresholds": [],
@@ -618,8 +612,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{status}}",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             }
           ],
           "thresholds": [],
@@ -693,7 +686,7 @@
               "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_querier_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-querier.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})) * 1e3",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
+              "legendFormat": "99th percentile",
               "refId": "A",
               "step": 10
             },
@@ -701,7 +694,7 @@
               "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_querier_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ruler-querier.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})) * 1e3",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
+              "legendFormat": "50th percentile",
               "refId": "B",
               "step": 10
             },
@@ -794,8 +787,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "title": "Per instance p99 latency",
@@ -850,24 +842,21 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Min",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "kube_horizontalpodautoscaler_spec_max_replicas{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=\"keda-hpa-ruler-querier\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Max",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "kube_horizontalpodautoscaler_status_current_replicas{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=\"keda-hpa-ruler-querier\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Current",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -948,16 +937,14 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Scaling metric",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             },
             {
               "expr": "kube_horizontalpodautoscaler_spec_target_metric{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=\"keda-hpa-ruler-querier\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Target per replica",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1033,8 +1020,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{metric}} failures",
-              "legendLink": null,
-              "step": 10
+              "legendLink": null
             }
           ],
           "thresholds": [],
@@ -1118,7 +1104,7 @@
         "query": "label_values(cortex_build_info, cluster)",
         "refresh": 1,
         "regex": "",
-        "sort": 2,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -1142,7 +1128,7 @@
         "query": "label_values(cortex_build_info{cluster=~\"$cluster\"}, namespace)",
         "refresh": 1,
         "regex": "",
-        "sort": 2,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
