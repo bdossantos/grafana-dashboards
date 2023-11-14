@@ -1,4 +1,41 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.4.3"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -25,9 +62,9 @@
   "description": "HAProxy with Prometheus data",
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "gnetId": 367,
+  "gnetId": 12693,
   "graphTooltip": 1,
-  "id": 564,
+  "id": null,
   "links": [
     {
       "asDropdown": false,
@@ -85,7 +122,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -255,7 +292,12 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -270,7 +312,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_frontend_http_responses_total{proxy=~\"$frontend\",code=~\"$code\",instance=\"$host\"}[$__rate_interval])) by (code)",
           "interval": "$interval",
@@ -283,7 +325,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_backend_http_responses_total{proxy=~\"$backend\",code=~\"$code\",instance=\"$host\"}[$__rate_interval])) by (code)",
           "interval": "$interval",
@@ -300,7 +342,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -380,7 +422,12 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -395,7 +442,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_frontend_bytes_in_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])*8) by (instance)",
           "interval": "$interval",
@@ -408,7 +455,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_frontend_bytes_out_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])*8) by (instance)",
           "interval": "$interval",
@@ -420,7 +467,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_backend_bytes_in_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])*8) by (instance)",
           "intervalFactor": 2,
@@ -431,7 +478,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_backend_bytes_out_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])*8) by (instance)",
           "intervalFactor": 2,
@@ -446,7 +493,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -533,7 +580,12 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -548,7 +600,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_frontend_connections_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])) by (instance)",
           "interval": "$interval",
@@ -561,7 +613,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_backend_connection_errors_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])) by (instance)",
           "hide": false,
@@ -579,7 +631,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -689,7 +741,12 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -704,7 +761,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_frontend_http_requests_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])) by (instance)",
           "interval": "$interval",
@@ -717,7 +774,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_frontend_request_errors_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])) by (instance)",
           "interval": "$interval",
@@ -730,7 +787,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_frontend_requests_denied_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])) by (instance)",
           "interval": "$interval",
@@ -742,7 +799,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_backend_redispatch_warnings_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])) by (instance)",
           "interval": "$interval",
@@ -754,7 +811,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_backend_retry_warnings_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])) by (instance)",
           "interval": "$interval",
@@ -766,7 +823,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_backend_response_errors_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])) by (instance)",
           "interval": "$interval",
@@ -779,7 +836,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(haproxy_backend_current_queue{proxy=~\"$backend\",instance=\"$host\"}) by (instance)",
           "interval": "$interval",
@@ -791,7 +848,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(rate(haproxy_backend_http_requests_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])) by (instance)",
           "interval": "$interval",
@@ -808,7 +865,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -888,7 +945,12 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -903,7 +965,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(haproxy_frontend_current_sessions{proxy=~\"$frontend\",instance=\"$host\"}) by (instance)",
           "interval": "$interval",
@@ -916,7 +978,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "sum(haproxy_backend_current_sessions{proxy=~\"$frontend\",instance=\"$host\"}) by (instance)",
           "interval": "$interval",
@@ -959,7 +1021,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1038,7 +1100,12 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": ["mean", "lastNotNull", "max", "min"],
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -1053,7 +1120,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "count(haproxy_frontend_status{instance=\"$host\"} == 1)",
           "hide": false,
@@ -1066,7 +1133,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "count(haproxy_backend_status{instance=\"$host\"} ==1)",
           "interval": "$interval",
@@ -1082,7 +1149,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1133,18 +1200,20 @@
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.0",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "expr": "time() - haproxy_process_start_time_seconds{instance=\"$host\"}",
           "intervalFactor": 2,
@@ -1172,7 +1241,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -1251,7 +1320,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1266,7 +1340,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_bytes_in_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])*8",
               "interval": "$interval",
@@ -1279,7 +1353,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_bytes_out_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])*8",
               "interval": "$interval",
@@ -1295,7 +1369,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -1374,7 +1448,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1389,7 +1468,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_bytes_in_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])*8",
               "interval": "$interval",
@@ -1402,7 +1481,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_bytes_out_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])*8",
               "interval": "$interval",
@@ -1418,7 +1497,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -1497,7 +1576,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1512,7 +1596,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_connections_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -1525,7 +1609,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_denied_connections_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -1542,7 +1626,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -1621,7 +1705,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1636,7 +1725,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_connection_attempts_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -1650,7 +1739,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_connection_errors_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -1666,7 +1755,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -1733,7 +1822,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1748,7 +1842,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_frontend_connections_rate_max{proxy=~\"$frontend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -1765,7 +1859,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -1831,7 +1925,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1846,7 +1945,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_connection_reuses_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -1889,7 +1988,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -1934,7 +2033,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -1956,7 +2056,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1971,7 +2076,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_current_queue{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -1988,7 +2093,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2033,7 +2138,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2055,7 +2161,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2070,7 +2181,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_max_queue{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -2114,7 +2225,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2158,7 +2269,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2193,7 +2305,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2208,25 +2325,29 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "rate(haproxy_backend_http_requests_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
+              "editorMode": "code",
+              "expr": "rate(haproxy_backend_http_requests_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
               "intervalFactor": 1,
               "legendFormat": "Total {{ proxy }}",
               "metric": "",
+              "range": true,
               "refId": "A",
               "step": 240
             },
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "rate(haproxy_backend_requests_denied_total{proxy=~\"$frontend\", instance=\"$host\"}[$__rate_interval])",
+              "editorMode": "code",
+              "expr": "rate(haproxy_backend_requests_denied_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
               "intervalFactor": 2,
               "legendFormat": "Denied {{ proxy }}",
+              "range": true,
               "refId": "C",
               "step": 240
             }
@@ -2237,7 +2358,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2281,7 +2402,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2328,7 +2450,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2343,7 +2470,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_http_requests_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -2356,7 +2483,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_request_errors_total{proxy=~\"$frontend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -2368,7 +2495,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_requests_denied_total{proxy=~\"$frontend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -2384,7 +2511,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2428,7 +2555,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2450,7 +2578,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2465,7 +2598,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_responses_denied_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -2482,7 +2615,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2526,7 +2659,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2561,7 +2695,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2576,7 +2715,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_responses_denied_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -2593,7 +2732,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2637,7 +2776,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2672,7 +2812,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2687,7 +2832,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_redispatch_warnings_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -2700,7 +2845,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_retry_warnings_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -2712,7 +2857,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_response_errors_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -2728,7 +2873,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2772,7 +2917,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2807,7 +2953,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2822,13 +2973,15 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
-              "expr": "haproxy_frontend_http_requests_rate_max{proxy=~\"$backend\", instance=\"$host\"}",
+              "editorMode": "code",
+              "expr": "haproxy_frontend_http_requests_rate_max{proxy=~\"$frontend\", instance=\"$host\"}",
               "interval": "$interval",
               "intervalFactor": 1,
               "legendFormat": "Max {{ proxy }}",
               "metric": "",
+              "range": true,
               "refId": "A",
               "step": 240
             }
@@ -2866,7 +3019,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -2910,7 +3063,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -2932,7 +3086,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2947,7 +3106,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_connect_time_average_seconds{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -2964,7 +3123,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3008,7 +3167,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3030,7 +3190,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -3045,7 +3210,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_max_connect_time_seconds{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -3062,7 +3227,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3107,7 +3272,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3129,7 +3295,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -3144,7 +3315,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_total_time_average_seconds{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -3161,7 +3332,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3206,7 +3377,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -3228,7 +3400,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -3243,7 +3420,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_max_total_time_seconds{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -3260,7 +3437,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3327,7 +3504,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -3342,7 +3524,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_response_time_average_seconds{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -3359,7 +3541,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3426,7 +3608,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -3441,7 +3628,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_max_response_time_seconds{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -3458,7 +3645,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3525,7 +3712,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -3540,7 +3732,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_queue_time_average_seconds{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -3557,7 +3749,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3624,7 +3816,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -3639,7 +3836,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_max_queue_time_seconds{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -3683,7 +3880,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3750,7 +3947,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -3765,7 +3967,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_http_responses_total{proxy=~\"$frontend\", code=~\"$code\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -3782,7 +3984,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -3849,7 +4051,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -3864,7 +4071,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_http_responses_total{proxy=~\"$backend\", code=~\"$code\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -3881,7 +4088,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -3947,7 +4154,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -3962,7 +4174,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_http_responses_total{proxy=~\"$backend\",server=~\"$server\",code=~\"$code\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -4006,7 +4218,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4050,7 +4262,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -4085,7 +4298,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4100,7 +4318,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_sessions_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -4114,7 +4332,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_denied_sessions_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -4128,7 +4346,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_frontend_current_sessions{proxy=~\"$frontend\",instance=\"$host\"}",
               "hide": true,
@@ -4146,7 +4364,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4190,7 +4408,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -4212,7 +4431,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4227,7 +4451,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_sessions_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -4241,7 +4465,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_current_sessions{proxy=~\"$backend\",instance=\"$host\"}",
               "hide": true,
@@ -4259,7 +4483,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4304,7 +4528,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -4339,7 +4564,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4354,7 +4584,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_max_sessions{proxy=~\"$backend\",instance=\"$host\"}",
               "hide": false,
@@ -4368,7 +4598,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_limit_sessions{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -4384,7 +4614,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4429,7 +4659,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -4464,7 +4695,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4479,7 +4715,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_frontend_max_sessions{proxy=~\"$frontend\",instance=\"$host\"}",
               "hide": false,
@@ -4493,7 +4729,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_frontend_limit_sessions{proxy=~\"$frontend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -4509,7 +4745,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4554,7 +4790,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -4576,7 +4813,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4591,7 +4833,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_max_session_rate{proxy=~\"$backend\",instance=\"$host\"}",
               "hide": false,
@@ -4609,7 +4851,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4654,7 +4896,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -4689,7 +4932,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4704,7 +4952,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_frontend_max_session_rate{proxy=~\"$frontend\",instance=\"$host\"}",
               "hide": false,
@@ -4718,7 +4966,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_frontend_limit_session_rate{proxy=~\"$frontend\",instance=\"$host\"}",
               "interval": "",
@@ -4734,7 +4982,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4778,7 +5026,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -4800,7 +5049,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4815,7 +5069,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_failed_header_rewriting_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -4832,7 +5086,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4876,7 +5130,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -4898,7 +5153,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4913,7 +5173,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_failed_header_rewriting_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -4930,7 +5190,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -4974,7 +5234,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -5021,7 +5282,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5036,7 +5302,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_last_session_seconds{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -5053,7 +5319,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -5098,7 +5364,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -5120,7 +5387,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5135,7 +5407,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_frontend_http_requests_rate_max{proxy=~\"$frontend\",instance=\"$host\"}",
               "hide": false,
@@ -5153,7 +5425,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -5197,7 +5469,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -5232,7 +5505,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5247,7 +5525,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_client_aborts_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -5260,7 +5538,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_server_aborts_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -5277,7 +5555,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -5321,7 +5599,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -5356,7 +5635,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5371,7 +5655,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_client_aborts_total{proxy=~\"$frontend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -5384,7 +5668,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_server_aborts_total{proxy=~\"$frontend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -5428,7 +5712,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -5473,7 +5757,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -5495,7 +5780,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5510,7 +5800,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_check_up_down_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -5527,7 +5817,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -5572,7 +5862,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -5594,7 +5885,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5609,7 +5905,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_weight{proxy=~\"$backend\", instance=\"$host\"}",
               "interval": "$interval",
@@ -5626,7 +5922,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -5671,7 +5967,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "green",
+                    "value": null
                   },
                   {
                     "color": "red",
@@ -5693,7 +5990,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5708,7 +6010,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_uweight{proxy=~\"$backend\", instance=\"$host\"}",
               "interval": "$interval",
@@ -5752,7 +6054,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -5832,7 +6134,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5847,7 +6154,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_http_cache_lookups_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -5860,7 +6167,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_http_cache_hits_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -5877,7 +6184,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -5957,7 +6264,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5972,7 +6284,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_http_cache_lookups_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -5985,7 +6297,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_http_cache_hits_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6002,7 +6314,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -6094,7 +6406,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6109,7 +6426,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_http_comp_bytes_in_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6122,7 +6439,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_http_comp_bytes_out_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6135,7 +6452,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_http_comp_bytes_bypassed_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6152,7 +6469,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -6244,7 +6561,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6259,7 +6581,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_http_comp_bytes_in_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6272,7 +6594,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_http_comp_bytes_out_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6285,7 +6607,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_http_comp_bytes_bypassed_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6302,7 +6624,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -6369,7 +6691,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6384,7 +6711,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_http_comp_responses_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6401,7 +6728,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -6468,7 +6795,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6483,7 +6815,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_http_comp_responses_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6527,7 +6859,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6593,7 +6925,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6608,7 +6945,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_frontend_status{proxy=~\"$frontend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -6625,7 +6962,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6691,7 +7028,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6706,7 +7048,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_status{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -6723,7 +7065,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6789,7 +7131,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6804,7 +7151,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_frontend_internal_errors_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6821,7 +7168,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6887,7 +7234,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6902,7 +7254,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_backend_internal_errors_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -6919,7 +7271,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -6984,7 +7336,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6999,7 +7356,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_active_servers{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -7016,7 +7373,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -7081,7 +7438,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -7096,7 +7458,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_backend_backup_servers{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "",
@@ -7137,7 +7499,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7216,7 +7578,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -7231,7 +7598,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_bytes_in_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])*8",
               "interval": "$interval",
@@ -7244,7 +7611,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_bytes_out_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])*8",
               "hide": false,
@@ -7261,7 +7628,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7340,7 +7707,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -7355,7 +7727,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_used_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -7367,7 +7739,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_idle_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -7383,7 +7755,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7462,7 +7834,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -7477,7 +7854,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_connection_attempts_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -7491,7 +7868,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_connection_errors_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -7507,7 +7884,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7573,7 +7950,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -7588,7 +7970,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_connection_reuses_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -7604,7 +7986,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7695,7 +8077,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -7710,7 +8097,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_idle_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -7722,7 +8109,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_idle_connections_limit{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -7734,7 +8121,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_safe_idle_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -7746,7 +8133,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_unsafe_idle_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -7789,7 +8176,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7856,7 +8243,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -7871,7 +8263,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_responses_denied_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -7888,7 +8280,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -7967,7 +8359,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -7982,7 +8379,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_redispatch_warnings_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -7995,7 +8392,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_retry_warnings_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -8009,7 +8406,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_response_errors_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -8026,7 +8423,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8093,7 +8490,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8108,7 +8510,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_current_queue{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -8125,7 +8527,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8205,7 +8607,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8220,7 +8627,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_max_queue{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "hide": false,
@@ -8234,7 +8641,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_queue_limit{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "",
@@ -8275,7 +8682,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8342,7 +8749,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8357,7 +8769,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_connect_time_average_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -8374,7 +8786,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8441,7 +8853,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8456,7 +8873,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_max_connect_time_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -8473,7 +8890,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8540,7 +8957,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8555,7 +8977,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_response_time_average_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -8572,7 +8994,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8639,7 +9061,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8654,7 +9081,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_max_response_time_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -8671,7 +9098,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8738,7 +9165,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8753,7 +9185,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_total_time_average_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -8770,7 +9202,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8837,7 +9269,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8852,7 +9289,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_max_total_time_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -8869,7 +9306,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -8936,7 +9373,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8951,7 +9393,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_queue_time_average_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -8968,7 +9410,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -9035,7 +9477,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -9050,7 +9497,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_max_queue_time_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -9094,7 +9541,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -9174,7 +9621,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -9189,7 +9641,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_current_sessions{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "hide": true,
@@ -9203,7 +9655,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_sessions_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -9216,7 +9668,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_max_sessions{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
               "hide": true,
@@ -9230,7 +9682,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_limit_sessions{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -9247,7 +9699,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -9338,7 +9790,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -9353,7 +9810,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_failed_header_rewriting_total{proxy=~\"$frontend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -9370,7 +9827,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -9450,7 +9907,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -9465,7 +9927,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_max_session_rate{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -9478,7 +9940,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_limit_session_rate{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -9522,7 +9984,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -9589,7 +10051,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -9604,7 +10071,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_weight{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -9621,7 +10088,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "Server's user weight, or sum of active servers' user weights for a backend",
           "fieldConfig": {
@@ -9688,7 +10155,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -9703,7 +10175,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_uweight{proxy=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
@@ -9720,7 +10192,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -9786,7 +10258,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -9801,7 +10278,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_check_up_down_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -9818,7 +10295,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -9884,7 +10361,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -9899,7 +10381,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_check_failures_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -9916,7 +10398,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -9982,7 +10464,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -9997,7 +10484,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_check_duration_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -10014,7 +10501,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -10080,7 +10567,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -10095,7 +10587,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_current_throttle{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
@@ -10112,7 +10604,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -10179,7 +10671,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -10194,7 +10691,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_last_session_seconds{proxy=~\"$backend\", server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -10238,7 +10735,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -10317,7 +10814,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -10332,7 +10834,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_server_status{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "hide": false,
@@ -10350,7 +10852,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -10416,7 +10918,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -10431,7 +10938,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_server_internal_errors_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -10448,7 +10955,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "Number of failed DNS resolutions in current worker process since started",
           "fieldConfig": {
@@ -10515,7 +11022,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -10530,7 +11042,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_failed_resolutions{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -10574,7 +11086,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -10653,7 +11165,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10668,7 +11185,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_current_session_rate{instance=\"$host\"}",
               "interval": "$interval",
@@ -10681,7 +11198,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_limit_session_rate{instance=\"$host\"}",
               "interval": "$interval",
@@ -10694,7 +11211,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_session_rate{instance=\"$host\"}",
               "hide": true,
@@ -10712,7 +11229,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -10778,7 +11295,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10793,7 +11315,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_current_connections{instance=\"$host\"}",
               "hide": true,
@@ -10807,7 +11329,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_connections_total{instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -10821,7 +11343,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_requests_total{instance=\"$host\"}[$__rate_interval])",
               "hide": false,
@@ -10839,7 +11361,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -10918,7 +11440,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10933,7 +11460,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_current_connection_rate{instance=\"$host\"}",
               "interval": "$interval",
@@ -10946,7 +11473,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_limit_connection_rate{instance=\"$host\"}",
               "interval": "$interval",
@@ -10959,7 +11486,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_connection_rate{instance=\"$host\"}",
               "hide": true,
@@ -10977,7 +11504,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -11056,7 +11583,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -11071,7 +11603,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_connections{instance=\"$host\"}",
               "interval": "$interval",
@@ -11084,7 +11616,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_hard_max_connections{instance=\"$host\"}",
               "interval": "$interval",
@@ -11128,7 +11660,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -11207,7 +11739,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -11222,7 +11759,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_current_zlib_memory{instance=\"$host\"}",
               "interval": "$interval",
@@ -11235,7 +11772,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_zlib_memory{instance=\"$host\"}",
               "interval": "$interval",
@@ -11252,7 +11789,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -11349,7 +11886,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -11364,7 +11906,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_http_comp_bytes_in_total{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -11377,7 +11919,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_http_comp_bytes_out_total{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -11390,7 +11932,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_limit_http_comp{instance=\"$host\"}",
               "interval": "$interval",
@@ -11434,7 +11976,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -11512,7 +12054,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -11527,7 +12074,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_ssl_cache_lookups_total{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -11540,7 +12087,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_ssl_cache_misses_total{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -11557,7 +12104,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -11647,7 +12194,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -11662,7 +12214,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_current_frontend_ssl_key_rate{instance=\"$host\"}",
               "interval": "$interval",
@@ -11675,7 +12227,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_frontend_ssl_key_rate{instance=\"$host\"}",
               "hide": true,
@@ -11689,7 +12241,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_current_backend_ssl_key_rate{instance=\"$host\"}",
               "interval": "$interval",
@@ -11702,7 +12254,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_backend_ssl_key_rate{instance=\"$host\"}",
               "hide": true,
@@ -11720,7 +12272,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -11799,7 +12351,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -11814,7 +12371,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_current_ssl_rate{instance=\"$host\"}",
               "interval": "$interval",
@@ -11827,7 +12384,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_limit_ssl_rate{instance=\"$host\"}",
               "hide": false,
@@ -11841,7 +12398,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_ssl_rate{instance=\"$host\"}",
               "hide": true,
@@ -11859,7 +12416,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -11938,7 +12495,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -11953,7 +12515,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_current_ssl_connections{instance=\"$host\"}",
               "hide": false,
@@ -11967,7 +12529,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_ssl_connections{instance=\"$host\"}",
               "hide": false,
@@ -11981,7 +12543,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_ssl_connections_total{instance=\"$host\"}[$__rate_interval])",
               "hide": true,
@@ -11999,7 +12561,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12065,7 +12627,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -12080,7 +12647,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_frontend_ssl_reuse{instance=\"$host\"}",
               "interval": "$interval",
@@ -12124,7 +12691,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12203,7 +12770,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -12218,7 +12790,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_memory_bytes{instance=\"$host\"}",
               "interval": "$interval",
@@ -12231,7 +12803,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_pool_allocated_bytes{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -12244,7 +12816,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_pool_used_bytes{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -12261,7 +12833,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12327,7 +12899,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -12342,7 +12919,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_current_tasks{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -12355,7 +12932,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_current_run_queue{instance=\"$host\"}",
               "interval": "$interval",
@@ -12368,7 +12945,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_stopping{instance=\"$host\"}",
               "interval": "$interval",
@@ -12385,7 +12962,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12451,7 +13028,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -12466,7 +13048,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_fds{instance=\"$host\"}",
               "hide": false,
@@ -12480,12 +13062,12 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_sockets{instance=\"$host\"}",
               "interval": "$interval",
               "intervalFactor": 1,
-              "legendFormat": "Maximum numer of open sockets",
+              "legendFormat": "Maximum number of open sockets",
               "metric": "",
               "refId": "B",
               "step": 240
@@ -12497,7 +13079,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12583,7 +13165,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -12598,7 +13185,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_max_pipes{instance=\"$host\"}",
               "interval": "$interval",
@@ -12611,7 +13198,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_pipes_used_total{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -12624,7 +13211,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_pipes_free_total{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -12641,7 +13228,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12707,7 +13294,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -12722,7 +13314,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_nbthread{instance=\"$host\"}",
               "interval": "$interval",
@@ -12735,7 +13327,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_nbproc{instance=\"$host\"}",
               "interval": "$interval",
@@ -12752,7 +13344,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12818,7 +13410,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -12833,7 +13430,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_pool_failures_total{instance=\"$host\"}",
               "interval": "$interval",
@@ -12850,7 +13447,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -12916,7 +13513,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -12931,7 +13533,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_idle_time_percent{instance=\"$host\"}",
               "interval": "$interval",
@@ -12948,7 +13550,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13014,7 +13616,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -13029,7 +13636,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_jobs{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -13042,7 +13649,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_unstoppable_jobs{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -13055,7 +13662,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_listeners{instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
@@ -13072,7 +13679,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13138,7 +13745,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -13153,7 +13765,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_active_peers{instance=\"$host\"}",
               "interval": "$interval",
@@ -13166,7 +13778,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_connected_peers{instance=\"$host\"}",
               "interval": "$interval",
@@ -13183,7 +13795,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13249,7 +13861,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -13264,7 +13881,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_dropped_logs_total{instance=\"$host\"}",
               "interval": "$interval",
@@ -13277,7 +13894,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_recv_logs_total{instance=\"$host\"}",
               "interval": "$interval",
@@ -13294,7 +13911,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "description": "",
           "fieldConfig": {
@@ -13360,7 +13977,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -13375,7 +13997,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_bytes_out_total{instance=\"$host\"}[$__rate_interval])*8",
               "interval": "$interval",
@@ -13388,7 +14010,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "rate(haproxy_process_spliced_bytes_out_total{instance=\"$host\"}[$__rate_interval])*8",
               "interval": "$interval",
@@ -13405,7 +14027,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "${DS_PROMETHEUS}"
           },
           "fieldConfig": {
             "defaults": {
@@ -13491,7 +14113,12 @@
           "links": [],
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max", "min"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max",
+                "min"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -13506,7 +14133,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
+                "uid": "${DS_PROMETHEUS}"
               },
               "expr": "haproxy_process_uptime_seconds{instance=\"$host\"}",
               "interval": "$interval",
@@ -13535,20 +14162,38 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 37,
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
-  "tags": ["haproxy", "servers"],
+  "tags": [
+    "haproxy",
+    "servers"
+  ],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "cdn01.prd.grv.wma.bds.systems",
-          "value": "cdn01.prd.grv.wma.bds.systems"
+          "text": "default",
+          "value": "default"
         },
+        "hide": 0,
+        "includeAll": false,
+        "label": "datasource",
+        "multi": false,
+        "name": "DS_PROMETHEUS",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "",
         "hide": 0,
@@ -13569,14 +14214,10 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "",
         "hide": 0,
@@ -13597,14 +14238,10 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "",
         "hide": 0,
@@ -13624,14 +14261,10 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "",
         "hide": 0,
@@ -13652,14 +14285,10 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "",
         "hide": 0,
@@ -13752,11 +14381,21 @@
       "2h",
       "1d"
     ],
-    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
   },
   "timezone": "browser",
   "title": "HAProxy 2 Full",
   "uid": "rEqu1u5ue",
-  "version": 1,
+  "version": 19,
   "weekStart": ""
 }
