@@ -92,7 +92,6 @@
               "expr": "sum(\n  rate(\n    cortex_request_duration_seconds_count{\n      cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\",\n      route=~\"(prometheus|api_prom)_api_v1_query\"\n    }[$__rate_interval]\n  )\n  or\n  rate(\n    cortex_prometheus_rule_evaluations_total{\n      cluster=~\"$cluster\", job=~\"($namespace)/((ruler|cortex|mimir|mimir-backend.*))\"\n    }[$__rate_interval]\n  )\n)\n",
               "format": "time_series",
               "instant": true,
-              "intervalFactor": 2,
               "refId": "A"
             }
           ],
@@ -169,7 +168,6 @@
               "expr": "sum(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\",route=~\"(prometheus|api_prom)_api_v1_query_range\"}[$__rate_interval]))",
               "format": "time_series",
               "instant": true,
-              "intervalFactor": 2,
               "refId": "A"
             }
           ],
@@ -246,7 +244,6 @@
               "expr": "sum(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\",route=~\"(prometheus|api_prom)_api_v1_labels\"}[$__rate_interval]))",
               "format": "time_series",
               "instant": true,
-              "intervalFactor": 2,
               "refId": "A"
             }
           ],
@@ -323,7 +320,6 @@
               "expr": "sum(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\",route=~\"(prometheus|api_prom)_api_v1_label_name_values\"}[$__rate_interval]))",
               "format": "time_series",
               "instant": true,
-              "intervalFactor": 2,
               "refId": "A"
             }
           ],
@@ -400,7 +396,6 @@
               "expr": "sum(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\",route=~\"(prometheus|api_prom)_api_v1_series\"}[$__rate_interval]))",
               "format": "time_series",
               "instant": true,
-              "intervalFactor": 2,
               "refId": "A"
             }
           ],
@@ -459,6 +454,7 @@
             "3xx": "#6ED0E0",
             "4xx": "#EF843C",
             "5xx": "#E24D42",
+            "OK": "#7EB26D",
             "cancel": "#A9A9A9",
             "error": "#E24D42",
             "success": "#7EB26D"
@@ -493,9 +489,8 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-z]+)\"))\n",
+              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{status}}",
               "refId": "A"
             }
@@ -570,26 +565,20 @@
             {
               "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th percentile",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             },
             {
               "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th percentile",
-              "refId": "B",
-              "step": 10
+              "refId": "B"
             },
             {
               "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
+              "refId": "C"
             }
           ],
           "thresholds": [],
@@ -670,7 +659,6 @@
               "exemplar": true,
               "expr": "histogram_quantile(0.99, sum by(le, instance) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}[$__rate_interval])))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "",
               "legendLink": null
             }
@@ -691,23 +679,13 @@
       "height": "250px",
       "panels": [
         {
-          "content": "<p>\n  The query scheduler is an optional service that moves\n  the internal queue from the query-frontend into a\n  separate component.\n  If this service is not deployed,\n  these panels will show \"No data.\"\n</p>\n",
-          "datasource": null,
-          "description": "",
-          "id": 10,
-          "mode": "markdown",
-          "span": 4,
-          "title": "",
-          "transparent": true,
-          "type": "text"
-        },
-        {
           "aliasColors": {
             "1xx": "#EAB839",
             "2xx": "#7EB26D",
             "3xx": "#6ED0E0",
             "4xx": "#EF843C",
             "5xx": "#E24D42",
+            "OK": "#7EB26D",
             "cancel": "#A9A9A9",
             "error": "#E24D42",
             "success": "#7EB26D"
@@ -716,8 +694,9 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
+          "description": "### Requests / sec\n<p>\n  The query scheduler is an optional service that moves\n  the internal queue from the query-frontend into a\n  separate component.\n  If this service is not deployed,\n  these panels will show \"No data.\"\n</p>\n\n",
           "fill": 10,
-          "id": 11,
+          "id": 10,
           "legend": {
             "avg": false,
             "current": false,
@@ -742,9 +721,8 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-z]+)\"))\n",
+              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{status}}",
               "refId": "A"
             }
@@ -791,8 +769,9 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
+          "description": "### Latency (Time in Queue)\n<p>\n  The query scheduler is an optional service that moves\n  the internal queue from the query-frontend into a\n  separate component.\n  If this service is not deployed,\n  these panels will show \"No data.\"\n</p>\n\n",
           "fill": 1,
-          "id": 12,
+          "id": 11,
           "legend": {
             "avg": false,
             "current": false,
@@ -819,21 +798,18 @@
             {
               "expr": "histogram_quantile(0.99, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th Percentile",
               "refId": "A"
             },
             {
               "expr": "histogram_quantile(0.50, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th Percentile",
               "refId": "B"
             },
             {
               "expr": "sum(rate(cortex_query_scheduler_queue_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
               "refId": "C"
             }
@@ -873,6 +849,56 @@
               "show": false
             }
           ]
+        },
+        {
+          "datasource": "$datasource",
+          "description": "### Queue length\n<p>\n  The query scheduler is an optional service that moves\n  the internal queue from the query-frontend into a\n  separate component.\n  If this service is not deployed,\n  these panels will show \"No data.\"\n</p>\n\n",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "lineWidth": 1,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "queries"
+            },
+            "overrides": []
+          },
+          "id": 12,
+          "links": [],
+          "options": {
+            "legend": {
+              "displayMode": "hidden",
+              "showLegend": false
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "span": 4,
+          "targets": [
+            {
+              "exemplar": true,
+              "expr": "sum(min_over_time(cortex_query_scheduler_queue_length{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__interval]))",
+              "format": "time_series",
+              "legendFormat": "Queue length",
+              "legendLink": null
+            }
+          ],
+          "title": "Queue length",
+          "type": "timeseries"
         }
       ],
       "repeat": null,
@@ -892,8 +918,245 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
+          "description": "### 99th Percentile Latency by Queue Dimension\n<p>\n  The query scheduler can optionally create subqueues\n  in order to enforce round-robin query queuing fairness\n  across additional queue dimensions beyond the default.\n\n  By default, query queuing fairness is only applied by tenant ID.\n  Queries without additional queue dimensions are labeled 'none'.\n</p>\n\n",
           "fill": 1,
           "id": 13,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "label_replace(histogram_quantile(0.99, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval])) by (le, additional_queue_dimensions)) * 1e3, \"additional_queue_dimensions\", \"none\", \"additional_queue_dimensions\", \"^$\")\n",
+              "format": "time_series",
+              "legendFormat": "99th Percentile: {{ additional_queue_dimensions }}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "99th Percentile Latency by Queue Dimension",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "description": "### 50th Percentile Latency by Queue Dimension\n<p>\n  The query scheduler can optionally create subqueues\n  in order to enforce round-robin query queuing fairness\n  across additional queue dimensions beyond the default.\n\n  By default, query queuing fairness is only applied by tenant ID.\n  Queries without additional queue dimensions are labeled 'none'.\n</p>\n\n",
+          "fill": 1,
+          "id": 14,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "label_replace(histogram_quantile(0.50, sum(rate(cortex_query_scheduler_queue_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval])) by (le, additional_queue_dimensions)) * 1e3, \"additional_queue_dimensions\", \"none\", \"additional_queue_dimensions\", \"^$\")\n",
+              "format": "time_series",
+              "legendFormat": "50th Percentile: {{ additional_queue_dimensions }}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "50th Percentile Latency by Queue Dimension",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "description": "### Average Latency by Queue Dimension\n<p>\n  The query scheduler can optionally create subqueues\n  in order to enforce round-robin query queuing fairness\n  across additional queue dimensions beyond the default.\n\n  By default, query queuing fairness is only applied by tenant ID.\n  Queries without additional queue dimensions are labeled 'none'.\n</p>\n\n",
+          "fill": 1,
+          "id": 15,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "label_replace(sum(rate(cortex_query_scheduler_queue_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval])) by (additional_queue_dimensions) * 1e3 / sum(rate(cortex_query_scheduler_queue_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-scheduler.*|mimir-backend.*))\"}[$__rate_interval])) by (additional_queue_dimensions), \"additional_queue_dimensions\", \"none\", \"additional_queue_dimensions\", \"^$\")\n",
+              "format": "time_series",
+              "legendFormat": "Average: {{ additional_queue_dimensions }}",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Average Latency by Queue Dimension",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Query-scheduler Latency (Time in Queue) Breakout by Additional Queue Dimensions",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 16,
           "legend": {
             "avg": false,
             "current": false,
@@ -920,7 +1183,6 @@
             {
               "expr": "sum (\n  rate(thanos_memcached_operations_total{name=\"frontend-cache\", cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\"}[$__rate_interval])\n  or ignoring(backend)\n  rate(thanos_cache_operations_total{name=\"frontend-cache\", cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\"}[$__rate_interval])\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Requests/s",
               "legendLink": null
             }
@@ -968,7 +1230,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 14,
+          "id": 17,
           "legend": {
             "avg": false,
             "current": false,
@@ -997,24 +1259,21 @@
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "99th Percentile",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             },
             {
               "expr": "histogram_quantile(0.50, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", name=\"frontend-cache\"}[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", name=\"frontend-cache\"}[$__rate_interval])\n) by (le)) * 1e3\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "50th Percentile",
-              "refId": "B",
-              "step": 10
+              "refId": "B"
             },
             {
               "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", name=\"frontend-cache\"}[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", name=\"frontend-cache\"}[$__rate_interval])\n) * 1e3\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", name=\"frontend-cache\"}[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((query-frontend.*|cortex|mimir|mimir-read.*))\", name=\"frontend-cache\"}[$__rate_interval])\n)\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
+              "refId": "C"
             }
           ],
           "thresholds": [],
@@ -1072,244 +1331,7 @@
             "3xx": "#6ED0E0",
             "4xx": "#EF843C",
             "5xx": "#E24D42",
-            "cancel": "#A9A9A9",
-            "error": "#E24D42",
-            "success": "#7EB26D"
-          },
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 10,
-          "id": 15,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 0,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 4,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_querier_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-z]+)\"))\n",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "{{status}}",
-              "refId": "A"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Requests / sec",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "reqps",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 16,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_querier_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "99th percentile",
-              "refId": "A",
-              "step": 10
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_querier_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th percentile",
-              "refId": "B",
-              "step": 10
-            },
-            {
-              "expr": "1e3 * sum(cluster_job_route:cortex_querier_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}) / sum(cluster_job_route:cortex_querier_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Latency",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "datasource": "$datasource",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "lineWidth": 1,
-                "pointSize": 5,
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                }
-              },
-              "thresholds": {
-                "mode": "absolute",
-                "steps": []
-              },
-              "unit": "s"
-            },
-            "overrides": []
-          },
-          "id": 17,
-          "links": [],
-          "options": {
-            "legend": {
-              "displayMode": "hidden",
-              "showLegend": false
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "span": 4,
-          "targets": [
-            {
-              "exemplar": true,
-              "expr": "histogram_quantile(0.99, sum by(le, instance) (rate(cortex_querier_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}[$__rate_interval])))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "",
-              "legendLink": null
-            }
-          ],
-          "title": "Per instance p99 latency",
-          "type": "timeseries"
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "Querier",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {
-            "1xx": "#EAB839",
-            "2xx": "#7EB26D",
-            "3xx": "#6ED0E0",
-            "4xx": "#EF843C",
-            "5xx": "#E24D42",
+            "OK": "#7EB26D",
             "cancel": "#A9A9A9",
             "error": "#E24D42",
             "success": "#7EB26D"
@@ -1344,9 +1366,8 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\",route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-z]+)\"))\n",
+              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_querier_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{status}}",
               "refId": "A"
             }
@@ -1419,28 +1440,22 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"})) * 1e3",
+              "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_querier_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th percentile",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             },
             {
-              "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"})) * 1e3",
+              "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_querier_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th percentile",
-              "refId": "B",
-              "step": 10
+              "refId": "B"
             },
             {
-              "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"})",
+              "expr": "1e3 * sum(cluster_job_route:cortex_querier_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}) / sum(cluster_job_route:cortex_querier_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"})",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
+              "refId": "C"
             }
           ],
           "thresholds": [],
@@ -1519,9 +1534,8 @@
           "targets": [
             {
               "exemplar": true,
-              "expr": "histogram_quantile(0.99, sum by(le, instance) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"}[$__rate_interval])))",
+              "expr": "histogram_quantile(0.99, sum by(le, instance) (rate(cortex_querier_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\", route=~\"(prometheus|api_prom)_api_v1_.+\"}[$__rate_interval])))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "",
               "legendLink": null
             }
@@ -1534,7 +1548,7 @@
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": true,
-      "title": "Ingester",
+      "title": "Querier",
       "titleSize": "h6"
     },
     {
@@ -1548,6 +1562,7 @@
             "3xx": "#6ED0E0",
             "4xx": "#EF843C",
             "5xx": "#E24D42",
+            "OK": "#7EB26D",
             "cancel": "#A9A9A9",
             "error": "#E24D42",
             "success": "#7EB26D"
@@ -1582,9 +1597,8 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-z]+)\"))\n",
+              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\",route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{status}}",
               "refId": "A"
             }
@@ -1657,28 +1671,22 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3",
+              "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"})) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th percentile",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             },
             {
-              "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3",
+              "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"})) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th percentile",
-              "refId": "B",
-              "step": 10
+              "refId": "B"
             },
             {
-              "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})",
+              "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"})",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
+              "refId": "C"
             }
           ],
           "thresholds": [],
@@ -1757,9 +1765,239 @@
           "targets": [
             {
               "exemplar": true,
+              "expr": "histogram_quantile(0.99, sum by(le, instance) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir|mimir-write.*))\", route=~\"/cortex.Ingester/Query(Stream)?|/cortex.Ingester/MetricsForLabelMatchers|/cortex.Ingester/LabelValues|/cortex.Ingester/MetricsMetadata\"}[$__rate_interval])))",
+              "format": "time_series",
+              "legendFormat": "",
+              "legendLink": null
+            }
+          ],
+          "title": "Per instance p99 latency",
+          "type": "timeseries"
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Ingester",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {
+            "1xx": "#EAB839",
+            "2xx": "#7EB26D",
+            "3xx": "#6ED0E0",
+            "4xx": "#EF843C",
+            "5xx": "#E24D42",
+            "OK": "#7EB26D",
+            "cancel": "#A9A9A9",
+            "error": "#E24D42",
+            "success": "#7EB26D"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 10,
+          "id": 24,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 0,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n",
+              "format": "time_series",
+              "legendFormat": "{{status}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Requests / sec",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "reqps",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 25,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.99, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3",
+              "format": "time_series",
+              "legendFormat": "99th percentile",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.50, sum by (le) (cluster_job_route:cortex_request_duration_seconds_bucket:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})) * 1e3",
+              "format": "time_series",
+              "legendFormat": "50th percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "1e3 * sum(cluster_job_route:cortex_request_duration_seconds_sum:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}) / sum(cluster_job_route:cortex_request_duration_seconds_count:sum_rate{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"})",
+              "format": "time_series",
+              "legendFormat": "Average",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Latency",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "datasource": "$datasource",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "lineWidth": 1,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                }
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "id": 26,
+          "links": [],
+          "options": {
+            "legend": {
+              "displayMode": "hidden",
+              "showLegend": false
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "span": 4,
+          "targets": [
+            {
+              "exemplar": true,
               "expr": "histogram_quantile(0.99, sum by(le, instance) (rate(cortex_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", route=~\"/gatewaypb.StoreGateway/.*\"}[$__rate_interval])))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "",
               "legendLink": null
             }
@@ -1787,7 +2025,7 @@
           "datasource": "$datasource",
           "description": "### Replicas\nThe maximum, and current number of querier replicas.\nPlease note that the current number of replicas can still show 1 replica even when scaled to 0.\nSince HPA never reports 0 replicas, the query will report 0 only if the HPA is not active.\n\n",
           "fill": 1,
-          "id": 24,
+          "id": 27,
           "legend": {
             "avg": false,
             "current": false,
@@ -1814,6 +2052,11 @@
             {
               "alias": "/Current .+/",
               "fill": 0
+            },
+            {
+              "alias": "/Min .+/",
+              "dashes": true,
+              "fill": 0
             }
           ],
           "spaceLength": 10,
@@ -1822,17 +2065,21 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "kube_horizontalpodautoscaler_spec_max_replicas{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n# Add the scaletargetref_name label which is more readable than \"kube-hpa-...\"\n+ on (cluster, namespace, horizontalpodautoscaler) group_left (scaletargetref_name)\n  0*kube_horizontalpodautoscaler_info{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n",
+              "expr": "max by (scaletargetref_name) (\n  kube_horizontalpodautoscaler_spec_max_replicas{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n  # Add the scaletargetref_name label which is more readable than \"kube-hpa-...\"\n  + on (cluster, namespace, horizontalpodautoscaler) group_left (scaletargetref_name)\n    0*kube_horizontalpodautoscaler_info{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Max {{ scaletargetref_name }}",
               "legendLink": null
             },
             {
-              "expr": "kube_horizontalpodautoscaler_status_current_replicas{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n# HPA doesn't go to 0 replicas, so we multiply by 0 if the HPA is not active.\n* on (cluster, namespace, horizontalpodautoscaler)\n  kube_horizontalpodautoscaler_status_condition{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\", condition=\"ScalingActive\", status=\"true\"}\n# Add the scaletargetref_name label which is more readable than \"kube-hpa-...\"\n+ on (cluster, namespace, horizontalpodautoscaler) group_left (scaletargetref_name)\n  0*kube_horizontalpodautoscaler_info{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n",
+              "expr": "max by (scaletargetref_name) (\n  kube_horizontalpodautoscaler_status_current_replicas{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n  # HPA doesn't go to 0 replicas, so we multiply by 0 if the HPA is not active.\n  * on (cluster, namespace, horizontalpodautoscaler)\n    kube_horizontalpodautoscaler_status_condition{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\", condition=\"ScalingActive\", status=\"true\"}\n  # Add the scaletargetref_name label which is more readable than \"kube-hpa-...\"\n  + on (cluster, namespace, horizontalpodautoscaler) group_left (scaletargetref_name)\n    0*kube_horizontalpodautoscaler_info{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Current {{ scaletargetref_name }}",
+              "legendLink": null
+            },
+            {
+              "expr": "max by (scaletargetref_name) (\n  kube_horizontalpodautoscaler_spec_min_replicas{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n  # Add the scaletargetref_name label which is more readable than \"kube-hpa-...\"\n  + on (cluster, namespace, horizontalpodautoscaler) group_left (scaletargetref_name)\n    0*kube_horizontalpodautoscaler_info{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n)\n",
+              "format": "time_series",
+              "legendFormat": "Min {{ scaletargetref_name }}",
               "legendLink": null
             }
           ],
@@ -1880,7 +2127,7 @@
           "datasource": "$datasource",
           "description": "### Scaling metric (desired replicas)\nThis panel shows the result scaling metric exposed by KEDA divided by the target/threshold used.\nIt should represent the desired number of replicas, ignoring the min/max constraints which are applied later.\n\n",
           "fill": 1,
-          "id": 25,
+          "id": 28,
           "legend": {
             "avg": false,
             "current": false,
@@ -1910,10 +2157,9 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (scaledObject) (\n  keda_metrics_adapter_scaler_metrics_value\n  /\n  on(metric) group_left\n  label_replace(\n      kube_horizontalpodautoscaler_spec_target_metric{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"},\n      \"metric\", \"$1\", \"metric_name\", \"(.+)\"\n  )\n)\n",
+              "expr": "sum by (scaler) (\n  label_replace(\n    keda_scaler_metrics_value{cluster=~\"$cluster\", exported_namespace=~\"$namespace\"},\n    \"namespace\", \"$1\", \"exported_namespace\", \"(.*)\"\n  )\n  /\n  on(cluster, namespace, scaledObject, metric) group_left\n  label_replace(label_replace(\n      kube_horizontalpodautoscaler_spec_target_metric{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"},\n      \"metric\", \"$1\", \"metric_name\", \"(.+)\"\n  ), \"scaledObject\", \"$1\", \"horizontalpodautoscaler\", \"keda-hpa-(.*)\")\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "{{ scaledObject }}",
+              "legendFormat": "{{ scaler }}",
               "legendLink": null
             }
           ],
@@ -1961,7 +2207,7 @@
           "datasource": "$datasource",
           "description": "### Autoscaler failures rate\nThe rate of failures in the KEDA custom metrics API server. Whenever an error occurs, the KEDA custom\nmetrics server is unable to query the scaling metric from Prometheus so the autoscaler woudln't work properly.\n\n",
           "fill": 1,
-          "id": 26,
+          "id": 29,
           "legend": {
             "avg": false,
             "current": false,
@@ -1986,10 +2232,9 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(metric) (rate(keda_metrics_adapter_scaler_errors[$__rate_interval])) +\non(metric) group_left\nlabel_replace(\n    kube_horizontalpodautoscaler_spec_target_metric{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"}\n    * 0, \"metric\", \"$1\", \"metric_name\", \"(.+)\"\n)\n",
+              "expr": "sum by(cluster, namespace, scaler, metric, scaledObject) (\n  label_replace(\n    rate(keda_scaler_errors[$__rate_interval]),\n    \"namespace\", \"$1\", \"exported_namespace\", \"(.+)\"\n  )\n) +\non(cluster, namespace, metric, scaledObject) group_left\nlabel_replace(\n  label_replace(\n      kube_horizontalpodautoscaler_spec_target_metric{cluster=~\"$cluster\", namespace=~\"$namespace\", horizontalpodautoscaler=~\"keda-hpa-querier\"} * 0,\n      \"scaledObject\", \"$1\", \"horizontalpodautoscaler\", \"keda-hpa-(.*)\"\n  ),\n  \"metric\", \"$1\", \"metric_name\", \"(.+)\"\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "{{metric}} failures",
+              "legendFormat": "{{scaler}} failures",
               "legendLink": null
             }
           ],
@@ -2048,6 +2293,7 @@
             "3xx": "#6ED0E0",
             "4xx": "#EF843C",
             "5xx": "#E24D42",
+            "OK": "#7EB26D",
             "cancel": "#A9A9A9",
             "error": "#E24D42",
             "success": "#7EB26D"
@@ -2057,7 +2303,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 10,
-          "id": 27,
+          "id": 30,
           "legend": {
             "avg": false,
             "current": false,
@@ -2082,9 +2328,8 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_kv_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", kv_name=~\"store-gateway\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-z]+)\"))\n",
+              "expr": "sum by (status) (\n  label_replace(label_replace(rate(cortex_kv_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", kv_name=~\"store-gateway\"}[$__rate_interval]),\n  \"status\", \"${1}xx\", \"status_code\", \"([0-9])..\"),\n  \"status\", \"${1}\", \"status_code\", \"([a-zA-Z]+)\"))\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{status}}",
               "refId": "A"
             }
@@ -2132,7 +2377,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 28,
+          "id": 31,
           "legend": {
             "avg": false,
             "current": false,
@@ -2159,21 +2404,18 @@
             {
               "expr": "histogram_quantile(0.99, sum(rate(cortex_kv_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", kv_name=~\"store-gateway\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th Percentile",
               "refId": "A"
             },
             {
               "expr": "histogram_quantile(0.50, sum(rate(cortex_kv_request_duration_seconds_bucket{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", kv_name=~\"store-gateway\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th Percentile",
               "refId": "B"
             },
             {
               "expr": "sum(rate(cortex_kv_request_duration_seconds_sum{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", kv_name=~\"store-gateway\"}[$__rate_interval])) * 1e3 / sum(rate(cortex_kv_request_duration_seconds_count{cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\", kv_name=~\"store-gateway\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
               "refId": "C"
             }
@@ -2233,7 +2475,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 10,
-          "id": 29,
+          "id": 32,
           "legend": {
             "avg": false,
             "current": false,
@@ -2260,262 +2502,6 @@
             {
               "expr": "sum by(operation) (\n  # Backwards compatibility\n  rate(\n    thanos_memcached_operations_total{\n      component=\"store-gateway\",\n      name=\"index-cache\",\n      cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"\n    }[$__rate_interval]\n  )\n  or ignoring(backend)\n  rate(\n    thanos_cache_operations_total{\n      component=\"store-gateway\",\n      name=\"index-cache\",\n      cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"\n    }[$__rate_interval]\n  )\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "{{operation}}",
-              "legendLink": null
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Requests / sec",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ops",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 30,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "histogram_quantile(0.99, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
-              "refId": "A",
-              "step": 10
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
-              "refId": "B",
-              "step": 10
-            },
-            {
-              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n) * 1e3\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n)\n",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Latency (getmulti)",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "description": "### Hit ratio\nEven if you do not set up memcached for the blocks index cache, you will still see data in this panel because the store-gateway by default has an\nin-memory blocks index cache.\n\n",
-          "fill": 1,
-          "id": 31,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum by(item_type) (\n  rate(\n    thanos_store_index_cache_hits_total{\n      component=\"store-gateway\",\n      cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"\n    }[$__rate_interval]\n  )\n)\n/\nsum by(item_type) (\n  rate(\n    thanos_store_index_cache_requests_total{\n      component=\"store-gateway\",\n      cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"\n    }[$__rate_interval]\n  )\n)\n",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "{{item_type}}",
-              "legendLink": null
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Hit ratio",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "percentunit",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "Memcached – block index cache (store-gateway accesses)",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 10,
-          "id": 32,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 0,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 4,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "sum by(operation) (\n  # Backwards compatibility\n  rate(thanos_memcached_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n  or ignoring(backend)\n  rate(thanos_cache_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n)\n",
-              "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{operation}}",
               "legendLink": null
             }
@@ -2588,28 +2574,25 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
+              "expr": "histogram_quantile(0.99, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "99th Percentile",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             },
             {
-              "expr": "histogram_quantile(0.50, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
+              "expr": "histogram_quantile(0.50, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "50th Percentile",
-              "refId": "B",
-              "step": 10
+              "refId": "B"
             },
             {
-              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n) * 1e3\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n)\n",
+              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n) * 1e3\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"index-cache\"\n}\n[$__rate_interval])\n)\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
+              "refId": "C"
             }
           ],
           "thresholds": [],
@@ -2654,6 +2637,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
+          "description": "### Hit ratio\nEven if you do not set up memcached for the blocks index cache, you will still see data in this panel because the store-gateway by default has an\nin-memory blocks index cache.\n\n",
           "fill": 1,
           "id": 34,
           "legend": {
@@ -2680,10 +2664,9 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n)\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n)\n",
+              "expr": "sum by(item_type) (\n  rate(\n    thanos_store_index_cache_hits_total{\n      component=\"store-gateway\",\n      cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"\n    }[$__rate_interval]\n  )\n)\n/\nsum by(item_type) (\n  rate(\n    thanos_store_index_cache_requests_total{\n      component=\"store-gateway\",\n      cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\"\n    }[$__rate_interval]\n  )\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "items",
+              "legendFormat": "{{item_type}}",
               "legendLink": null
             }
           ],
@@ -2728,7 +2711,7 @@
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": true,
-      "title": "Memcached – chunks cache (store-gateway accesses)",
+      "title": "Memcached – block index cache (store-gateway accesses)",
       "titleSize": "h6"
     },
     {
@@ -2767,9 +2750,8 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(operation) (\n  # Backwards compatibility\n  rate(thanos_memcached_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or ignoring(backend)\n  rate(thanos_cache_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n",
+              "expr": "sum by(operation) (\n  # Backwards compatibility\n  rate(thanos_memcached_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n  or ignoring(backend)\n  rate(thanos_cache_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{operation}}",
               "legendLink": null
             }
@@ -2842,28 +2824,25 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
+              "expr": "histogram_quantile(0.99, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "99th Percentile",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             },
             {
-              "expr": "histogram_quantile(0.50, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
+              "expr": "histogram_quantile(0.50, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "50th Percentile",
-              "refId": "B",
-              "step": 10
+              "refId": "B"
             },
             {
-              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) * 1e3\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n)\n",
+              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n) * 1e3\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"chunks-cache\"\n}\n[$__rate_interval])\n)\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
+              "refId": "C"
             }
           ],
           "thresholds": [],
@@ -2934,9 +2913,8 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n",
+              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n)\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"chunks-cache\"\n  }[$__rate_interval])\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "items",
               "legendLink": null
             }
@@ -2982,7 +2960,7 @@
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": true,
-      "title": "Memcached – metadata cache (store-gateway accesses)",
+      "title": "Memcached – chunks cache (store-gateway accesses)",
       "titleSize": "h6"
     },
     {
@@ -3021,9 +2999,8 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by(operation) (\n  # Backwards compatibility\n  rate(thanos_memcached_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or ignoring(backend)\n  rate(thanos_cache_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n",
+              "expr": "sum by(operation) (\n  # Backwards compatibility\n  rate(thanos_memcached_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or ignoring(backend)\n  rate(thanos_cache_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{operation}}",
               "legendLink": null
             }
@@ -3096,28 +3073,25 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
+              "expr": "histogram_quantile(0.99, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "99th Percentile",
-              "refId": "A",
-              "step": 10
+              "refId": "A"
             },
             {
-              "expr": "histogram_quantile(0.50, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
+              "expr": "histogram_quantile(0.50, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "50th Percentile",
-              "refId": "B",
-              "step": 10
+              "refId": "B"
             },
             {
-              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) * 1e3\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n)\n",
+              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) * 1e3\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n  operation=\"getmulti\",\n  component=\"store-gateway\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n)\n",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Average",
-              "refId": "C",
-              "step": 10
+              "refId": "C"
             }
           ],
           "thresholds": [],
@@ -3188,9 +3162,257 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n",
+              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((store-gateway.*|cortex|mimir|mimir-backend.*))\",\n    component=\"store-gateway\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n",
+              "format": "time_series",
+              "legendFormat": "items",
+              "legendLink": null
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Hit ratio",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percentunit",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Memcached – metadata cache (store-gateway accesses)",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 10,
+          "id": 41,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 0,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum by(operation) (\n  # Backwards compatibility\n  rate(thanos_memcached_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or ignoring(backend)\n  rate(thanos_cache_operations_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n",
+              "format": "time_series",
+              "legendFormat": "{{operation}}",
+              "legendLink": null
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Requests / sec",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ops",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 42,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.99, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
               "format": "time_series",
               "intervalFactor": 2,
+              "legendFormat": "99th Percentile",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.50, sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_bucket{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) by (le)) * 1e3\n",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "50th Percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_sum{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n) * 1e3\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_memcached_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n  or\n  rate(thanos_cache_operation_duration_seconds_count{\n  cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n  operation=\"getmulti\",\n  component=\"querier\",\n  name=\"metadata-cache\"\n}\n[$__rate_interval])\n)\n",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "Average",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Latency (getmulti)",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 43,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "sum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_hits_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n/\nsum(\n  # Backwards compatibility\n  rate(thanos_cache_memcached_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n  or\n  rate(thanos_cache_requests_total{\n    cluster=~\"$cluster\", job=~\"($namespace)/((querier.*|cortex|mimir|mimir-read.*))\",\n    component=\"querier\",\n    name=\"metadata-cache\"\n  }[$__rate_interval])\n)\n",
+              "format": "time_series",
               "legendFormat": "items",
               "legendLink": null
             }
@@ -3250,7 +3472,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 10,
-          "id": 41,
+          "id": 44,
           "legend": {
             "avg": false,
             "current": false,
@@ -3277,7 +3499,6 @@
             {
               "expr": "sum by(operation) (rate(thanos_objstore_bucket_operations_total{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{operation}}",
               "legendLink": null
             }
@@ -3328,7 +3549,7 @@
               "unit": "percentunit"
             }
           },
-          "id": 42,
+          "id": 45,
           "links": [],
           "options": {
             "legend": {
@@ -3344,292 +3565,12 @@
             {
               "expr": "sum by(operation) (rate(thanos_objstore_bucket_operation_failures_total{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\"}[$__rate_interval])) / sum by(operation) (rate(thanos_objstore_bucket_operations_total{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\"}[$__rate_interval])) >= 0",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{operation}}",
               "legendLink": null
             }
           ],
           "title": "Error rate",
           "type": "timeseries"
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 43,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
-              "refId": "A"
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
-              "refId": "B"
-            },
-            {
-              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Latency of op: Attributes",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 44,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
-              "refId": "A"
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
-              "refId": "B"
-            },
-            {
-              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Latency of op: Exists",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "Blocks object store (store-gateway accesses)",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 45,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
-              "refId": "A"
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
-              "refId": "B"
-            },
-            {
-              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Latency of op: Get",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
         },
         {
           "aliasColors": {},
@@ -3663,23 +3604,20 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th Percentile",
               "refId": "A"
             },
             {
-              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th Percentile",
               "refId": "B"
             },
             {
-              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval]))",
+              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"attributes\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
               "refId": "C"
             }
@@ -3687,7 +3625,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Latency of op: GetRange",
+          "title": "Latency of op: Attributes",
           "tooltip": {
             "shared": false,
             "sort": 0,
@@ -3752,23 +3690,290 @@
           "steppedLine": false,
           "targets": [
             {
+              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "99th Percentile",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "50th Percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"exists\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "Average",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Latency of op: Exists",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Blocks object store (store-gateway accesses)",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 48,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "99th Percentile",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "50th Percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "Average",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Latency of op: Get",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 49,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "99th Percentile",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "50th Percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"get_range\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "Average",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Latency of op: GetRange",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 50,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
               "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"upload\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th Percentile",
               "refId": "A"
             },
             {
               "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"upload\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th Percentile",
               "refId": "B"
             },
             {
               "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"upload\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"upload\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
               "refId": "C"
             }
@@ -3816,7 +4021,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 48,
+          "id": 51,
           "legend": {
             "avg": false,
             "current": false,
@@ -3843,21 +4048,18 @@
             {
               "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"delete\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th Percentile",
               "refId": "A"
             },
             {
               "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"delete\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th Percentile",
               "refId": "B"
             },
             {
               "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"delete\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"store-gateway\",operation=\"delete\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
               "refId": "C"
             }
@@ -3917,7 +4119,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 10,
-          "id": 49,
+          "id": 52,
           "legend": {
             "avg": false,
             "current": false,
@@ -3944,7 +4146,6 @@
             {
               "expr": "sum by(operation) (rate(thanos_objstore_bucket_operations_total{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{operation}}",
               "legendLink": null
             }
@@ -3995,7 +4196,7 @@
               "unit": "percentunit"
             }
           },
-          "id": 50,
+          "id": 53,
           "links": [],
           "options": {
             "legend": {
@@ -4011,292 +4212,12 @@
             {
               "expr": "sum by(operation) (rate(thanos_objstore_bucket_operation_failures_total{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\"}[$__rate_interval])) / sum by(operation) (rate(thanos_objstore_bucket_operations_total{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\"}[$__rate_interval])) >= 0",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "{{operation}}",
               "legendLink": null
             }
           ],
           "title": "Error rate",
           "type": "timeseries"
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 51,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
-              "refId": "A"
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
-              "refId": "B"
-            },
-            {
-              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Latency of op: Attributes",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 52,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
-              "refId": "A"
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
-              "refId": "B"
-            },
-            {
-              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Latency of op: Exists",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "Blocks object store (querier accesses)",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "$datasource",
-          "fill": 1,
-          "id": 53,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null as zero",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "99th Percentile",
-              "refId": "A"
-            },
-            {
-              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "50th Percentile",
-              "refId": "B"
-            },
-            {
-              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval]))",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "Average",
-              "refId": "C"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Latency of op: Get",
-          "tooltip": {
-            "shared": false,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "ms",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": false
-            }
-          ]
         },
         {
           "aliasColors": {},
@@ -4330,23 +4251,20 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th Percentile",
               "refId": "A"
             },
             {
-              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
+              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th Percentile",
               "refId": "B"
             },
             {
-              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval]))",
+              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"attributes\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
               "refId": "C"
             }
@@ -4354,7 +4272,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Latency of op: GetRange",
+          "title": "Latency of op: Attributes",
           "tooltip": {
             "shared": false,
             "sort": 0,
@@ -4419,23 +4337,290 @@
           "steppedLine": false,
           "targets": [
             {
+              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "99th Percentile",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "50th Percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"exists\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "Average",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Latency of op: Exists",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Blocks object store (querier accesses)",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 56,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "99th Percentile",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "50th Percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "Average",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Latency of op: Get",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 57,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "99th Percentile",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval])) by (le)) * 1e3",
+              "format": "time_series",
+              "legendFormat": "50th Percentile",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"get_range\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "Average",
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Latency of op: GetRange",
+          "tooltip": {
+            "shared": false,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "id": 58,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
               "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"upload\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th Percentile",
               "refId": "A"
             },
             {
               "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"upload\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th Percentile",
               "refId": "B"
             },
             {
               "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"upload\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"upload\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
               "refId": "C"
             }
@@ -4483,7 +4668,7 @@
           "dashes": false,
           "datasource": "$datasource",
           "fill": 1,
-          "id": 56,
+          "id": 59,
           "legend": {
             "avg": false,
             "current": false,
@@ -4510,21 +4695,18 @@
             {
               "expr": "histogram_quantile(0.99, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"delete\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "99th Percentile",
               "refId": "A"
             },
             {
               "expr": "histogram_quantile(0.50, sum(rate(thanos_objstore_bucket_operation_duration_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"delete\"}[$__rate_interval])) by (le)) * 1e3",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "50th Percentile",
               "refId": "B"
             },
             {
               "expr": "sum(rate(thanos_objstore_bucket_operation_duration_seconds_sum{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"delete\"}[$__rate_interval])) * 1e3 / sum(rate(thanos_objstore_bucket_operation_duration_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\",component=\"querier\",operation=\"delete\"}[$__rate_interval]))",
               "format": "time_series",
-              "intervalFactor": 2,
               "legendFormat": "Average",
               "refId": "C"
             }
@@ -4585,7 +4767,7 @@
           "value": "default"
         },
         "hide": 0,
-        "label": "Data Source",
+        "label": "Data source",
         "name": "datasource",
         "options": [],
         "query": "prometheus",
