@@ -53,7 +53,7 @@
                 "mode": "absolute",
                 "steps": []
               },
-              "unit": "short"
+              "unit": "Bps"
             },
             "overrides": []
           },
@@ -68,16 +68,16 @@
               "sort": "none"
             }
           },
-          "span": 4,
+          "span": 3,
           "targets": [
             {
-              "expr": "sum by(instance) (rate(node_cpu_seconds_total{mode=\"user\",cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(distributor|ingester).*\"}[$__rate_interval]))",
+              "expr": "sum by(instance) (rate(node_network_receive_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(ruler-query-frontend|ruler-query-scheduler|ruler-querier).*\"}[$__rate_interval]))",
               "format": "time_series",
               "legendFormat": "{{instance}}",
               "legendLink": null
             }
           ],
-          "title": "CPU",
+          "title": "Receive bandwidth",
           "type": "timeseries"
         },
         {
@@ -101,7 +101,7 @@
                 "mode": "absolute",
                 "steps": []
               },
-              "unit": "bytes"
+              "unit": "Bps"
             },
             "overrides": []
           },
@@ -116,32 +116,35 @@
               "sort": "none"
             }
           },
-          "span": 4,
+          "span": 3,
           "targets": [
             {
-              "expr": "node_memory_MemTotal_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(distributor|ingester).*\"}\n- node_memory_MemFree_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(distributor|ingester).*\"}\n- node_memory_Buffers_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(distributor|ingester).*\"}\n- node_memory_Cached_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(distributor|ingester).*\"}\n- node_memory_Slab_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(distributor|ingester).*\"}\n- node_memory_PageTables_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(distributor|ingester).*\"}\n- node_memory_SwapCached_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(distributor|ingester).*\"}\n",
+              "expr": "sum by(instance) (rate(node_network_transmit_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(ruler-query-frontend|ruler-query-scheduler|ruler-querier).*\"}[$__rate_interval]))",
               "format": "time_series",
               "legendFormat": "{{instance}}",
               "legendLink": null
             }
           ],
-          "title": "Memory (workingset)",
+          "title": "Transmit bandwidth",
           "type": "timeseries"
         },
         {
           "datasource": "$datasource",
           "fieldConfig": {
+            "custom": {
+              "fillOpacity": 0
+            },
             "defaults": {
               "custom": {
                 "drawStyle": "line",
-                "fillOpacity": 100,
-                "lineWidth": 0,
+                "fillOpacity": 1,
+                "lineWidth": 1,
                 "pointSize": 5,
                 "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
-                  "mode": "normal"
+                  "mode": "none"
                 }
               },
               "min": 0,
@@ -149,7 +152,7 @@
                 "mode": "absolute",
                 "steps": []
               },
-              "unit": "bytes"
+              "unit": "short"
             },
             "overrides": []
           },
@@ -161,40 +164,38 @@
             },
             "tooltip": {
               "mode": "multi",
-              "sort": "desc"
+              "sort": "none"
             }
           },
-          "span": 4,
+          "span": 3,
           "targets": [
             {
-              "expr": "sum by(instance) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(distributor|ingester).*\"})",
+              "expr": "avg(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(ruler-query-frontend|ruler-query-scheduler|ruler-querier).*\"})",
               "format": "time_series",
-              "legendFormat": "{{instance}}",
+              "legendFormat": "avg",
+              "legendLink": null
+            },
+            {
+              "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(ruler-query-frontend|ruler-query-scheduler|ruler-querier).*\"})",
+              "format": "time_series",
+              "legendFormat": "highest",
               "legendLink": null
             }
           ],
-          "title": "Memory (go heap inuse)",
+          "title": "Inflight requests (per pod)",
           "type": "timeseries"
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "Summary",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "250px",
-      "panels": [
+        },
         {
           "datasource": "$datasource",
+          "description": "### Ingress TCP connections (per pod)\nThe number of ingress TCP connections (HTTP and gRPC protocol).\n",
           "fieldConfig": {
+            "custom": {
+              "fillOpacity": 0
+            },
             "defaults": {
               "custom": {
                 "drawStyle": "line",
-                "fillOpacity": 0,
+                "fillOpacity": 1,
                 "lineWidth": 1,
                 "pointSize": 5,
                 "showPoints": "never",
@@ -211,58 +212,7 @@
               },
               "unit": "short"
             },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "request"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#FFC000",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "limit"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#E02F44",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              }
-            ]
+            "overrides": []
           },
           "id": 4,
           "links": [],
@@ -272,166 +222,31 @@
             },
             "tooltip": {
               "mode": "multi",
-              "sort": "desc"
+              "sort": "none"
             }
           },
-          "span": 4,
+          "span": 3,
           "targets": [
             {
-              "expr": "sum by(instance) (rate(node_cpu_seconds_total{mode=\"user\",cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*distributor.*\"}[$__rate_interval]))",
+              "expr": "avg(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(ruler-query-frontend|ruler-query-scheduler|ruler-querier).*\"}))",
               "format": "time_series",
-              "legendFormat": "{{instance}}",
+              "legendFormat": "avg",
+              "legendLink": null
+            },
+            {
+              "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(ruler-query-frontend|ruler-query-scheduler|ruler-querier).*\"}))",
+              "format": "time_series",
+              "legendFormat": "highest",
+              "legendLink": null
+            },
+            {
+              "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*(ruler-query-frontend|ruler-query-scheduler|ruler-querier).*\"})",
+              "format": "time_series",
+              "legendFormat": "limit",
               "legendLink": null
             }
           ],
-          "title": "CPU",
-          "type": "timeseries"
-        },
-        {
-          "datasource": "$datasource",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "lineWidth": 1,
-                "pointSize": 5,
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                }
-              },
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": []
-              },
-              "unit": "bytes"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "request"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#FFC000",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "limit"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#E02F44",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "id": 5,
-          "links": [],
-          "options": {
-            "legend": {
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "span": 4,
-          "targets": [
-            {
-              "expr": "node_memory_MemTotal_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*distributor.*\"}\n- node_memory_MemFree_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*distributor.*\"}\n- node_memory_Buffers_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*distributor.*\"}\n- node_memory_Cached_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*distributor.*\"}\n- node_memory_Slab_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*distributor.*\"}\n- node_memory_PageTables_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*distributor.*\"}\n- node_memory_SwapCached_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*distributor.*\"}\n",
-              "format": "time_series",
-              "legendFormat": "{{instance}}",
-              "legendLink": null
-            }
-          ],
-          "title": "Memory (workingset)",
-          "type": "timeseries"
-        },
-        {
-          "datasource": "$datasource",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "lineWidth": 1,
-                "pointSize": 5,
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                }
-              },
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": []
-              },
-              "unit": "bytes"
-            },
-            "overrides": []
-          },
-          "id": 6,
-          "links": [],
-          "options": {
-            "legend": {
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "span": 4,
-          "targets": [
-            {
-              "expr": "sum by(instance) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*distributor.*\"})",
-              "format": "time_series",
-              "legendFormat": "{{instance}}",
-              "legendLink": null
-            }
-          ],
-          "title": "Memory (go heap inuse)",
+          "title": "Ingress TCP connections (per pod)",
           "type": "timeseries"
         }
       ],
@@ -439,424 +254,7 @@
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": true,
-      "title": "Distributor",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "250px",
-      "panels": [
-        {
-          "datasource": "$datasource",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "lineWidth": 1,
-                "pointSize": 5,
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                }
-              },
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": []
-              },
-              "unit": "short"
-            },
-            "overrides": []
-          },
-          "id": 7,
-          "links": [],
-          "options": {
-            "legend": {
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "span": 6,
-          "targets": [
-            {
-              "expr": "sum by(instance) (cortex_ingester_memory_series{cluster=~\"$cluster\", job=~\"($namespace)/((ingester.*|cortex|mimir))\"})",
-              "format": "time_series",
-              "legendFormat": "{{instance}}",
-              "legendLink": null
-            }
-          ],
-          "title": "In-memory series",
-          "type": "timeseries"
-        },
-        {
-          "datasource": "$datasource",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "lineWidth": 1,
-                "pointSize": 5,
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                }
-              },
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": []
-              },
-              "unit": "short"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "request"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#FFC000",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "limit"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#E02F44",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "id": 8,
-          "links": [],
-          "options": {
-            "legend": {
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "span": 6,
-          "targets": [
-            {
-              "expr": "sum by(instance) (rate(node_cpu_seconds_total{mode=\"user\",cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}[$__rate_interval]))",
-              "format": "time_series",
-              "legendFormat": "{{instance}}",
-              "legendLink": null
-            }
-          ],
-          "title": "CPU",
-          "type": "timeseries"
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "Ingester",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "250px",
-      "panels": [
-        {
-          "datasource": "$datasource",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "lineWidth": 1,
-                "pointSize": 5,
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                }
-              },
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": []
-              },
-              "unit": "bytes"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "request"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#FFC000",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "limit"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#E02F44",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "id": 9,
-          "links": [],
-          "options": {
-            "legend": {
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "span": 4,
-          "targets": [
-            {
-              "expr": "node_memory_Active_anon_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}\n+ node_memory_SwapCached_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}\n",
-              "format": "time_series",
-              "legendFormat": "{{instance}}",
-              "legendLink": null
-            }
-          ],
-          "title": "Memory (RSS)",
-          "type": "timeseries"
-        },
-        {
-          "datasource": "$datasource",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "lineWidth": 1,
-                "pointSize": 5,
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                }
-              },
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": []
-              },
-              "unit": "bytes"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "request"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#FFC000",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "limit"
-                },
-                "properties": [
-                  {
-                    "id": "color",
-                    "value": {
-                      "fixedColor": "#E02F44",
-                      "mode": "fixed"
-                    }
-                  },
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
-                  },
-                  {
-                    "id": "custom.lineStyle",
-                    "value": {
-                      "fill": "dash"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "id": 10,
-          "links": [],
-          "options": {
-            "legend": {
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "span": 4,
-          "targets": [
-            {
-              "expr": "node_memory_MemTotal_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}\n- node_memory_MemFree_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}\n- node_memory_Buffers_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}\n- node_memory_Cached_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}\n- node_memory_Slab_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}\n- node_memory_PageTables_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}\n- node_memory_SwapCached_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}\n",
-              "format": "time_series",
-              "legendFormat": "{{instance}}",
-              "legendLink": null
-            }
-          ],
-          "title": "Memory (workingset)",
-          "type": "timeseries"
-        },
-        {
-          "datasource": "$datasource",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "lineWidth": 1,
-                "pointSize": 5,
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                }
-              },
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": []
-              },
-              "unit": "bytes"
-            },
-            "overrides": []
-          },
-          "id": 11,
-          "links": [],
-          "options": {
-            "legend": {
-              "showLegend": true
-            },
-            "tooltip": {
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "span": 4,
-          "targets": [
-            {
-              "expr": "sum by(instance) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"})",
-              "format": "time_series",
-              "legendFormat": "{{instance}}",
-              "legendLink": null
-            }
-          ],
-          "title": "Memory (go heap inuse)",
-          "type": "timeseries"
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": true,
-      "title": "",
+      "title": "Summary",
       "titleSize": "h6"
     },
     {
@@ -888,6 +286,392 @@
             },
             "overrides": []
           },
+          "id": 5,
+          "links": [],
+          "options": {
+            "legend": {
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "span": 3,
+          "targets": [
+            {
+              "expr": "sum by(instance) (rate(node_network_receive_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-frontend.*\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "{{instance}}",
+              "legendLink": null
+            }
+          ],
+          "title": "Receive bandwidth",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "$datasource",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 100,
+                "lineWidth": 0,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                }
+              },
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "id": 6,
+          "links": [],
+          "options": {
+            "legend": {
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "span": 3,
+          "targets": [
+            {
+              "expr": "sum by(instance) (rate(node_network_transmit_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-frontend.*\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "{{instance}}",
+              "legendLink": null
+            }
+          ],
+          "title": "Transmit bandwidth",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "$datasource",
+          "fieldConfig": {
+            "custom": {
+              "fillOpacity": 0
+            },
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 1,
+                "lineWidth": 1,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                }
+              },
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "id": 7,
+          "links": [],
+          "options": {
+            "legend": {
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "span": 3,
+          "targets": [
+            {
+              "expr": "avg(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-frontend.*\"})",
+              "format": "time_series",
+              "legendFormat": "avg",
+              "legendLink": null
+            },
+            {
+              "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-frontend.*\"})",
+              "format": "time_series",
+              "legendFormat": "highest",
+              "legendLink": null
+            }
+          ],
+          "title": "Inflight requests (per pod)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "$datasource",
+          "description": "### Ingress TCP connections (per pod)\nThe number of ingress TCP connections (HTTP and gRPC protocol).\n",
+          "fieldConfig": {
+            "custom": {
+              "fillOpacity": 0
+            },
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 1,
+                "lineWidth": 1,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                }
+              },
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "id": 8,
+          "links": [],
+          "options": {
+            "legend": {
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "span": 3,
+          "targets": [
+            {
+              "expr": "avg(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-frontend.*\"}))",
+              "format": "time_series",
+              "legendFormat": "avg",
+              "legendLink": null
+            },
+            {
+              "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-frontend.*\"}))",
+              "format": "time_series",
+              "legendFormat": "highest",
+              "legendLink": null
+            },
+            {
+              "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-frontend.*\"})",
+              "format": "time_series",
+              "legendFormat": "limit",
+              "legendLink": null
+            }
+          ],
+          "title": "Ingress TCP connections (per pod)",
+          "type": "timeseries"
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Ruler-query-frontend",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
+        {
+          "datasource": "$datasource",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 100,
+                "lineWidth": 0,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                }
+              },
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "id": 9,
+          "links": [],
+          "options": {
+            "legend": {
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "span": 3,
+          "targets": [
+            {
+              "expr": "sum by(instance) (rate(node_network_receive_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-scheduler.*\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "{{instance}}",
+              "legendLink": null
+            }
+          ],
+          "title": "Receive bandwidth",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "$datasource",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 100,
+                "lineWidth": 0,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                }
+              },
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "id": 10,
+          "links": [],
+          "options": {
+            "legend": {
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "span": 3,
+          "targets": [
+            {
+              "expr": "sum by(instance) (rate(node_network_transmit_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-scheduler.*\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "{{instance}}",
+              "legendLink": null
+            }
+          ],
+          "title": "Transmit bandwidth",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "$datasource",
+          "fieldConfig": {
+            "custom": {
+              "fillOpacity": 0
+            },
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 1,
+                "lineWidth": 1,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                }
+              },
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "id": 11,
+          "links": [],
+          "options": {
+            "legend": {
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "span": 3,
+          "targets": [
+            {
+              "expr": "avg(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-scheduler.*\"})",
+              "format": "time_series",
+              "legendFormat": "avg",
+              "legendLink": null
+            },
+            {
+              "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-scheduler.*\"})",
+              "format": "time_series",
+              "legendFormat": "highest",
+              "legendLink": null
+            }
+          ],
+          "title": "Inflight requests (per pod)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "$datasource",
+          "description": "### Ingress TCP connections (per pod)\nThe number of ingress TCP connections (HTTP and gRPC protocol).\n",
+          "fieldConfig": {
+            "custom": {
+              "fillOpacity": 0
+            },
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 1,
+                "lineWidth": 1,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                }
+              },
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
           "id": 12,
           "links": [],
           "options": {
@@ -899,18 +683,42 @@
               "sort": "none"
             }
           },
-          "span": 4,
+          "span": 3,
           "targets": [
             {
-              "expr": "sum by(instance, instance, device) (\n  rate(\n    node_disk_written_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}[$__rate_interval]\n  )\n)\n",
+              "expr": "avg(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-scheduler.*\"}))",
               "format": "time_series",
-              "legendFormat": "{{instance}} - {{device}}",
+              "legendFormat": "avg",
+              "legendLink": null
+            },
+            {
+              "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-scheduler.*\"}))",
+              "format": "time_series",
+              "legendFormat": "highest",
+              "legendLink": null
+            },
+            {
+              "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-query-scheduler.*\"})",
+              "format": "time_series",
+              "legendFormat": "limit",
               "legendLink": null
             }
           ],
-          "title": "Disk writes",
+          "title": "Ingress TCP connections (per pod)",
           "type": "timeseries"
-        },
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": true,
+      "title": "Ruler-query-scheduler",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "250px",
+      "panels": [
         {
           "datasource": "$datasource",
           "fieldConfig": {
@@ -947,16 +755,64 @@
               "sort": "none"
             }
           },
-          "span": 4,
+          "span": 3,
           "targets": [
             {
-              "expr": "sum by(instance, instance, device) (\n  rate(\n    node_disk_read_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\"}[$__rate_interval]\n  )\n)\n",
+              "expr": "sum by(instance) (rate(node_network_receive_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-querier.*\"}[$__rate_interval]))",
               "format": "time_series",
-              "legendFormat": "{{instance}} - {{device}}",
+              "legendFormat": "{{instance}}",
               "legendLink": null
             }
           ],
-          "title": "Disk reads",
+          "title": "Receive bandwidth",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "$datasource",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 100,
+                "lineWidth": 0,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                }
+              },
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "Bps"
+            },
+            "overrides": []
+          },
+          "id": 14,
+          "links": [],
+          "options": {
+            "legend": {
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "span": 3,
+          "targets": [
+            {
+              "expr": "sum by(instance) (rate(node_network_transmit_bytes_total{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-querier.*\"}[$__rate_interval]))",
+              "format": "time_series",
+              "legendFormat": "{{instance}}",
+              "legendLink": null
+            }
+          ],
+          "title": "Transmit bandwidth",
           "type": "timeseries"
         },
         {
@@ -983,11 +839,11 @@
                 "mode": "absolute",
                 "steps": []
               },
-              "unit": "percentunit"
+              "unit": "short"
             },
             "overrides": []
           },
-          "id": 14,
+          "id": 15,
           "links": [],
           "options": {
             "legend": {
@@ -998,16 +854,86 @@
               "sort": "none"
             }
           },
-          "span": 4,
+          "span": 3,
           "targets": [
             {
-              "expr": "1 - ((node_filesystem_avail_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\", mountpoint=\"/\"})\n    / node_filesystem_size_bytes{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ingester.*\", mountpoint=\"/\"})\n",
+              "expr": "avg(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-querier.*\"})",
               "format": "time_series",
-              "legendFormat": "{{instance}}",
+              "legendFormat": "avg",
+              "legendLink": null
+            },
+            {
+              "expr": "max(cortex_inflight_requests{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-querier.*\"})",
+              "format": "time_series",
+              "legendFormat": "highest",
               "legendLink": null
             }
           ],
-          "title": "Disk space utilization",
+          "title": "Inflight requests (per pod)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "$datasource",
+          "description": "### Ingress TCP connections (per pod)\nThe number of ingress TCP connections (HTTP and gRPC protocol).\n",
+          "fieldConfig": {
+            "custom": {
+              "fillOpacity": 0
+            },
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 1,
+                "lineWidth": 1,
+                "pointSize": 5,
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                }
+              },
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": []
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "id": 16,
+          "links": [],
+          "options": {
+            "legend": {
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "span": 3,
+          "targets": [
+            {
+              "expr": "avg(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-querier.*\"}))",
+              "format": "time_series",
+              "legendFormat": "avg",
+              "legendLink": null
+            },
+            {
+              "expr": "max(sum by(instance) (cortex_tcp_connections{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-querier.*\"}))",
+              "format": "time_series",
+              "legendFormat": "highest",
+              "legendLink": null
+            },
+            {
+              "expr": "min(cortex_tcp_connections_limit{cluster=~\"$cluster\", namespace=~\"$namespace\",instance=~\".*ruler-querier.*\"})",
+              "format": "time_series",
+              "legendFormat": "limit",
+              "legendLink": null
+            }
+          ],
+          "title": "Ingress TCP connections (per pod)",
           "type": "timeseries"
         }
       ],
@@ -1015,7 +941,7 @@
       "repeatIteration": null,
       "repeatRowId": null,
       "showTitle": true,
-      "title": "",
+      "title": "Ruler-querier",
       "titleSize": "h6"
     }
   ],
@@ -1106,7 +1032,7 @@
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "utc",
-  "title": "Mimir / Writes resources",
-  "uid": "bc9160e50b52e89e0e49c840fea3d379",
+  "title": "Mimir / Remote ruler reads networking",
+  "uid": "9e8cfff65f91632f8a25981c6fe44bc9",
   "version": 0
 }
