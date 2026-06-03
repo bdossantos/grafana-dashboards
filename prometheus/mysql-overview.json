@@ -79,17 +79,13 @@
       "options": {
         "colorMode": "value",
         "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         }
@@ -163,17 +159,13 @@
       "options": {
         "colorMode": "value",
         "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         }
@@ -247,17 +239,13 @@
       "options": {
         "colorMode": "value",
         "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ]
+          "calcs": ["lastNotNull"]
         },
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         }
@@ -575,9 +563,7 @@
         "mode": "time",
         "name": null,
         "show": true,
-        "values": [
-          "total"
-        ]
+        "values": ["total"]
       },
       "yaxes": [
         {
@@ -3705,9 +3691,7 @@
         "current": {
           "selected": true,
           "text": "hosted-grafana/cloudsql-proxy-mysql-exporter",
-          "value": [
-            "hosted-grafana/cloudsql-proxy-mysql-exporter"
-          ]
+          "value": ["hosted-grafana/cloudsql-proxy-mysql-exporter"]
         },
         "datasource": "$datasource",
         "definition": "label_values(mysql_up, job)",
@@ -3734,9 +3718,7 @@
           "selected": true,
           "tags": [],
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": ["$__all"]
         },
         "datasource": "$datasource",
         "definition": "label_values(mysql_up, instance)",
@@ -3781,17 +3763,7 @@
       "1d"
     ],
     "status": "Stable",
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ],
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"],
     "type": "timepicker"
   },
   "timezone": "",

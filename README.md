@@ -44,6 +44,14 @@ A collection of Grafana dashboards backed by [Prometheus](https://prometheus.io/
 2. Click **Upload JSON file** and select the desired `.json` file from the `prometheus/` directory, or paste the raw JSON content.
 3. Select the Prometheus data source and click **Import**.
 
+## Development
+
+After updating dashboard JSON files, run [Prettier](https://prettier.io/) to keep formatting consistent:
+
+```sh
+prettier --write "prometheus/**/*.json"
+```
+
 ## Resources
 
 * https://github.com/percona/grafana-dashboards
