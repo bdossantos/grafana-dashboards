@@ -102,7 +102,11 @@
       "id": 152,
       "panels": [],
       "title": "Basic General Info",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     },
     {
       "datasource": {
@@ -138,7 +142,6 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -339,7 +342,7 @@
         ]
       },
       "gridPos": {
-        "h": 10,
+        "h": 7,
         "w": 24,
         "x": 0,
         "y": 1
@@ -347,7 +350,11 @@
       "id": 83,
       "options": {
         "legend": {
-          "calcs": ["min", "mean", "max"],
+          "calcs": [
+            "min",
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -371,8 +378,7 @@
           "legendFormat": "Front {{ code }}",
           "metric": "",
           "range": true,
-          "refId": "A",
-          "step": 240
+          "refId": "A"
         },
         {
           "datasource": {
@@ -385,8 +391,7 @@
           "legendFormat": "Back {{ code }}",
           "metric": "",
           "range": true,
-          "refId": "B",
-          "step": 240
+          "refId": "B"
         },
         {
           "datasource": {
@@ -399,8 +404,7 @@
           "legendFormat": "Front requests",
           "metric": "",
           "range": true,
-          "refId": "C",
-          "step": 240
+          "refId": "C"
         },
         {
           "datasource": {
@@ -413,8 +417,7 @@
           "legendFormat": "Back requests",
           "metric": "",
           "range": true,
-          "refId": "D",
-          "step": 240
+          "refId": "D"
         }
       ],
       "title": "HTTP response / request",
@@ -454,7 +457,6 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -492,15 +494,19 @@
         ]
       },
       "gridPos": {
-        "h": 10,
+        "h": 7,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 8
       },
       "id": 75,
       "options": {
         "legend": {
-          "calcs": ["min", "mean", "max"],
+          "calcs": [
+            "min",
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -524,8 +530,7 @@
           "legendFormat": "IN Front",
           "metric": "",
           "range": true,
-          "refId": "A",
-          "step": 240
+          "refId": "A"
         },
         {
           "datasource": {
@@ -537,8 +542,7 @@
           "interval": "$interval",
           "legendFormat": "OUT Front",
           "range": true,
-          "refId": "B",
-          "step": 240
+          "refId": "B"
         }
       ],
       "title": "Front - Data transfer",
@@ -578,7 +582,6 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -616,15 +619,19 @@
         ]
       },
       "gridPos": {
-        "h": 10,
+        "h": 7,
         "w": 12,
         "x": 12,
-        "y": 11
+        "y": 8
       },
       "id": 229,
       "options": {
         "legend": {
-          "calcs": ["min", "mean", "max"],
+          "calcs": [
+            "min",
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
@@ -647,7 +654,7 @@
           "legendFormat": "IN Back",
           "range": true,
           "refId": "C",
-          "step": 240
+          "interval": "$interval"
         },
         {
           "datasource": {
@@ -659,7 +666,7 @@
           "legendFormat": "OUT Back",
           "range": true,
           "refId": "D",
-          "step": 240
+          "interval": "$interval"
         }
       ],
       "title": "Back - Data transfer",
@@ -699,7 +706,6 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -737,22 +743,26 @@
         ]
       },
       "gridPos": {
-        "h": 10,
+        "h": 7,
         "w": 12,
         "x": 0,
-        "y": 21
+        "y": 15
       },
       "id": 236,
       "options": {
         "legend": {
-          "calcs": ["min", "mean", "max"],
+          "calcs": [
+            "min",
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
           "hideZeros": false,
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -769,8 +779,7 @@
           "legendFormat": "Front",
           "metric": "",
           "range": true,
-          "refId": "A",
-          "step": 240
+          "refId": "A"
         },
         {
           "datasource": {
@@ -783,8 +792,7 @@
           "legendFormat": "Back",
           "metric": "",
           "range": true,
-          "refId": "B",
-          "step": 240
+          "refId": "B"
         }
       ],
       "title": "Sessions",
@@ -824,7 +832,6 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -862,22 +869,26 @@
         ]
       },
       "gridPos": {
-        "h": 10,
+        "h": 7,
         "w": 12,
         "x": 12,
-        "y": 21
+        "y": 15
       },
       "id": 79,
       "options": {
         "legend": {
-          "calcs": ["min", "mean", "max"],
+          "calcs": [
+            "min",
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
         },
         "tooltip": {
           "hideZeros": false,
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -894,8 +905,7 @@
           "legendFormat": "Front",
           "metric": "",
           "range": true,
-          "refId": "A",
-          "step": 240
+          "refId": "A"
         },
         {
           "datasource": {
@@ -908,8 +918,7 @@
           "legendFormat": "Back",
           "metric": "",
           "range": true,
-          "refId": "B",
-          "step": 240
+          "refId": "B"
         }
       ],
       "title": "Connections",
@@ -948,7 +957,6 @@
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -976,12 +984,16 @@
         "h": 4,
         "w": 22,
         "x": 0,
-        "y": 31
+        "y": 22
       },
       "id": 85,
       "options": {
         "legend": {
-          "calcs": ["min", "mean", "max"],
+          "calcs": [
+            "min",
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -1004,8 +1016,7 @@
           "interval": "$interval",
           "legendFormat": "Front Up",
           "range": true,
-          "refId": "A",
-          "step": 240
+          "refId": "A"
         },
         {
           "datasource": {
@@ -1017,8 +1028,7 @@
           "interval": "$interval",
           "legendFormat": "Back Up",
           "range": true,
-          "refId": "B",
-          "step": 240
+          "refId": "B"
         }
       ],
       "title": "Status UP",
@@ -1062,10 +1072,9 @@
         "h": 4,
         "w": 2,
         "x": 22,
-        "y": 31
+        "y": 22
       },
       "id": 149,
-      "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
         "graphMode": "none",
@@ -1073,7 +1082,9 @@
         "orientation": "horizontal",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -1092,7 +1103,7 @@
           "expr": "time() - haproxy_process_start_time_seconds{instance=\"$host\"}",
           "range": true,
           "refId": "A",
-          "step": 240
+          "legendFormat": "{{ instance }}"
         }
       ],
       "title": "Uptime",
@@ -1142,7 +1153,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -1192,7 +1202,7 @@
             ]
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 0,
             "y": 16203
@@ -1200,7 +1210,11 @@
           "id": 46,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1224,8 +1238,7 @@
               "legendFormat": "Total {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -1237,8 +1250,7 @@
               "interval": "$interval",
               "legendFormat": "Error {{ proxy }}",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -1250,8 +1262,19 @@
               "interval": "$interval",
               "legendFormat": "Denied {{ proxy }}",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "rate(haproxy_frontend_intercepted_requests_total{proxy=~\"$frontend\",instance=\"$host\"}[$__rate_interval])",
+              "interval": "$interval",
+              "legendFormat": "Intercepted {{ proxy }}",
+              "range": true,
+              "refId": "D"
             }
           ],
           "title": "Front - HTTP requests Total / Error / Denied",
@@ -1291,7 +1314,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -1329,7 +1351,7 @@
             ]
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 12,
             "y": 16203
@@ -1337,7 +1359,11 @@
           "id": 134,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1361,8 +1387,7 @@
               "legendFormat": "Total {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -1374,8 +1399,7 @@
               "interval": "$interval",
               "legendFormat": "Denied {{ proxy }}",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Back - HTTP requests Total / Denied",
@@ -1415,7 +1439,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -1440,15 +1463,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 0,
-            "y": 19191
+            "y": 16214
           },
           "id": 47,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1472,8 +1499,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Front - HTTP responses",
@@ -1513,7 +1539,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -1538,15 +1563,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 12,
-            "y": 19191
+            "y": 16214
           },
           "id": 24,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1570,8 +1599,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Back - HTTP responses",
@@ -1610,7 +1638,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -1636,15 +1663,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
+            "h": 7,
             "w": 24,
             "x": 0,
-            "y": 19204
+            "y": 16225
           },
           "id": 242,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true,
@@ -1670,8 +1701,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Server - HTTP responses",
@@ -1711,7 +1741,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -1736,15 +1765,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 0,
-            "y": 19212
+            "y": 16232
           },
           "id": 245,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1768,8 +1801,7 @@
               "legendFormat": "{{ code }} {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Front - HTTP responses code",
@@ -1809,7 +1841,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -1834,15 +1865,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 12,
-            "y": 19212
+            "y": 16232
           },
           "id": 246,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -1866,8 +1901,7 @@
               "legendFormat": "{{ code }} {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Back - HTTP responses code",
@@ -1906,7 +1940,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -1932,15 +1965,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 9,
+            "h": 7,
             "w": 24,
             "x": 0,
-            "y": 19225
+            "y": 16243
           },
           "id": 240,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true,
@@ -1966,8 +2003,7 @@
               "legendFormat": "{{ code }} - {{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Server - HTTP responses code",
@@ -2007,7 +2043,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -2029,31 +2064,22 @@
               },
               "unit": "reqps"
             },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/.*Denied.*/"
-                },
-                "properties": [
-                  {
-                    "id": "custom.transform",
-                    "value": "negative-Y"
-                  }
-                ]
-              }
-            ]
+            "overrides": []
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 0,
-            "y": 19234
+            "y": 16250
           },
           "id": 115,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2077,8 +2103,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Front - HTTP responses denied",
@@ -2118,7 +2143,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -2143,15 +2167,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 12,
-            "y": 19234
+            "y": 16250
           },
           "id": 126,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2175,8 +2203,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Back - HTTP responses denied",
@@ -2216,7 +2243,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -2242,15 +2268,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 9,
+            "h": 7,
             "w": 24,
             "x": 0,
-            "y": 19248
+            "y": 16261
           },
           "id": 187,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -2269,13 +2299,12 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "rate(haproxy_server_responses_denied_total{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval])",
+              "expr": "rate(haproxy_server_responses_denied_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Server - HTTP responses denied",
@@ -2315,7 +2344,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -2353,15 +2381,19 @@
             ]
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 12,
-            "y": 19257
+            "y": 16268
           },
           "id": 35,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2385,8 +2417,7 @@
               "legendFormat": "Redispatch {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -2398,8 +2429,7 @@
               "interval": "$interval",
               "legendFormat": "Retry {{ proxy }}",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -2411,8 +2441,7 @@
               "interval": "$interval",
               "legendFormat": "Error {{ proxy }}",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Back - Error / Redispatch / Retry",
@@ -2452,7 +2481,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -2491,15 +2519,19 @@
             ]
           },
           "gridPos": {
-            "h": 9,
+            "h": 7,
             "w": 24,
             "x": 0,
-            "y": 19271
+            "y": 16279
           },
           "id": 71,
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -2522,8 +2554,7 @@
               "interval": "$interval",
               "legendFormat": "Redispatch {{ proxy }} / {{ server }}",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -2536,8 +2567,7 @@
               "legendFormat": "Retry {{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -2549,8 +2579,7 @@
               "interval": "$interval",
               "legendFormat": "Error {{ proxy }} / {{ server }}",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Server - Error / Redispatch / Retry",
@@ -2558,7 +2587,11 @@
         }
       ],
       "title": "Requests / Responses",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     },
     {
       "collapsed": true,
@@ -2604,7 +2637,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -2642,7 +2674,7 @@
             ]
           },
           "gridPos": {
-            "h": 15,
+            "h": 11,
             "w": 12,
             "x": 0,
             "y": 16204
@@ -2650,7 +2682,11 @@
           "id": 42,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2674,8 +2710,7 @@
               "legendFormat": "IN {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -2687,8 +2722,7 @@
               "interval": "$interval",
               "legendFormat": "OUT {{ proxy }}",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Front - Data transfer",
@@ -2728,7 +2762,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -2766,7 +2799,7 @@
             ]
           },
           "gridPos": {
-            "h": 15,
+            "h": 11,
             "w": 12,
             "x": 12,
             "y": 16204
@@ -2774,7 +2807,11 @@
           "id": 1,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -2798,8 +2835,7 @@
               "legendFormat": "IN {{ proxy }}",
               "metric": "haproxy_backend_",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -2811,8 +2847,7 @@
               "interval": "$interval",
               "legendFormat": "OUT {{ proxy }}",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Back - Data transfer",
@@ -2852,7 +2887,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -2894,12 +2928,16 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 19193
+            "y": 16215
           },
           "id": 129,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -2923,8 +2961,7 @@
               "legendFormat": "IN {{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -2936,8 +2973,7 @@
               "interval": "$interval",
               "legendFormat": "OUT {{ proxy }} / {{ server }}",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Server - Data transfer",
@@ -2977,7 +3013,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -3003,7 +3038,7 @@
               {
                 "matcher": {
                   "id": "byRegexp",
-                  "options": "/.*Denied*/"
+                  "options": "/.*Denied.*/"
                 },
                 "properties": [
                   {
@@ -3015,22 +3050,26 @@
             ]
           },
           "gridPos": {
-            "h": 15,
+            "h": 11,
             "w": 12,
             "x": 0,
-            "y": 19200
+            "y": 16222
           },
           "id": 43,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -3047,8 +3086,7 @@
               "legendFormat": "Accepted {{ proxy }}",
               "metric": "haproxy_backe",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -3061,8 +3099,7 @@
               "legendFormat": "Denied {{ proxy }}",
               "metric": "haproxy_backe",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Front - Connections Accepted / Denied",
@@ -3102,7 +3139,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -3140,22 +3176,26 @@
             ]
           },
           "gridPos": {
-            "h": 15,
+            "h": 11,
             "w": 12,
             "x": 12,
-            "y": 19200
+            "y": 16222
           },
           "id": 27,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -3172,8 +3212,7 @@
               "legendFormat": "Attempt {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -3185,8 +3224,7 @@
               "interval": "$interval",
               "legendFormat": "Error {{ proxy }}",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Back - Connections Attempts / Errors",
@@ -3226,7 +3264,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -3268,19 +3305,23 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 19215
+            "y": 16233
           },
           "id": 130,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -3297,8 +3338,7 @@
               "legendFormat": "Attempts {{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -3310,8 +3350,7 @@
               "interval": "$interval",
               "legendFormat": "Error {{ proxy }} / {{ server }}",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Server - Connections Attempts / Error",
@@ -3351,7 +3390,204 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 0,
+            "y": 16240
+          },
+          "id": 258,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_backend_current_queue{proxy=~\"$backend\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Back - Current Queue",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 12,
+            "y": 16240
+          },
+          "id": 259,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_server_current_queue{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }} / {{ server }}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Server - Current Queue",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -3376,22 +3612,26 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 15,
+            "h": 11,
             "w": 12,
             "x": 12,
-            "y": 19222
+            "y": 16251
           },
           "id": 131,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -3407,8 +3647,7 @@
               "interval": "$interval",
               "legendFormat": "{{ proxy }}",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Back - Connections reuses",
@@ -3448,7 +3687,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -3477,19 +3715,23 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 19237
+            "y": 16262
           },
           "id": 179,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -3505,16 +3747,506 @@
               "interval": "$interval",
               "legendFormat": "Reuses {{ proxy }} / {{ server }}",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Server - Connections reuses",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "server (-) / client (+)",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "ops"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/.*Server.*/"
+                },
+                "properties": [
+                  {
+                    "id": "custom.transform",
+                    "value": "negative-Y"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 12,
+            "y": 16269
+          },
+          "id": 128,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "rate(haproxy_backend_client_aborts_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
+              "interval": "$interval",
+              "legendFormat": "Client {{ proxy }}",
+              "metric": "",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "rate(haproxy_backend_server_aborts_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
+              "interval": "$interval",
+              "legendFormat": "Server {{ proxy }}",
+              "metric": "",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Back - Data transfers aborted",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "server (-) / client (+)",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "decimals": 1,
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "ops"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/.*Server.*/"
+                },
+                "properties": [
+                  {
+                    "id": "custom.transform",
+                    "value": "negative-Y"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 16280
+          },
+          "id": 146,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "rate(haproxy_server_client_aborts_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
+              "interval": "$interval",
+              "legendFormat": "Client {{ proxy }} / {{ server }}",
+              "metric": "",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "rate(haproxy_server_server_aborts_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
+              "interval": "$interval",
+              "legendFormat": "Server {{ proxy }} / {{ server }}",
+              "metric": "",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Server - Data transfers aborted",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 0,
+            "y": 16287
+          },
+          "id": 261,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_server_used_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "Used {{ proxy }} / {{ server }}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_server_idle_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "Idle {{ proxy }} / {{ server }}",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_server_need_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "Need {{ proxy }} / {{ server }}",
+              "range": true,
+              "refId": "C"
+            }
+          ],
+          "title": "Server - Connection Pool",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 12,
+            "y": 16287
+          },
+          "id": 262,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_server_safe_idle_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "Safe {{ proxy }} / {{ server }}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_server_unsafe_idle_connections_current{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "Unsafe {{ proxy }} / {{ server }}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Server - Idle Connections Detail",
+          "type": "timeseries"
         }
       ],
       "title": "Throughput / Connections",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     },
     {
       "collapsed": true,
@@ -3560,7 +4292,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -3598,7 +4329,7 @@
             ]
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 0,
             "y": 38
@@ -3606,14 +4337,18 @@
           "id": 45,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -3630,8 +4365,7 @@
               "legendFormat": "Total {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -3644,8 +4378,7 @@
               "legendFormat": "Denied {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -3659,8 +4392,7 @@
               "legendFormat": "Current active {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Front - Sessions",
@@ -3700,7 +4432,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -3725,7 +4456,7 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 12,
             "y": 38
@@ -3733,14 +4464,18 @@
           "id": 30,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -3757,8 +4492,7 @@
               "legendFormat": "Total {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -3772,8 +4506,7 @@
               "legendFormat": "Current active {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Back - Sessions",
@@ -3813,7 +4546,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -3842,19 +4574,23 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 51
+            "y": 49
           },
           "id": 61,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -3871,11 +4607,10 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
-          "title": "Server - Session",
+          "title": "Server - Sessions",
           "type": "timeseries"
         },
         {
@@ -3912,7 +4647,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "auto",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -3951,19 +4685,23 @@
             "h": 11,
             "w": 12,
             "x": 0,
-            "y": 58
+            "y": 56
           },
           "id": 221,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -3975,12 +4713,11 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "(haproxy_frontend_limit_sessions{proxy=~\"$frontend\", instance=\"$host\"} > bool 0) * (max_over_time(haproxy_frontend_current_sessions{proxy=~\"$frontend\", instance=\"$host\"}[$__rate_interval]) / haproxy_frontend_limit_sessions{proxy=~\"$frontend\", instance=\"$host\"} * 100)",
+              "expr": "(haproxy_frontend_limit_sessions{proxy=~\"$frontend\", instance=\"$host\"} > bool 0) * ((max_over_time(haproxy_frontend_current_sessions{proxy=~\"$frontend\", instance=\"$host\"}[$__rate_interval]) / haproxy_frontend_limit_sessions{proxy=~\"$frontend\", instance=\"$host\"}) * 100)",
               "interval": "$interval",
               "legendFormat": "{{ proxy }}",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Front - Session usage",
@@ -4020,7 +4757,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "auto",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -4059,19 +4795,23 @@
             "h": 11,
             "w": 12,
             "x": 12,
-            "y": 58
+            "y": 56
           },
           "id": 243,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -4083,12 +4823,11 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "(haproxy_backend_limit_sessions{proxy=~\"$backend\", instance=\"$host\"} > bool 0) * (max_over_time(haproxy_backend_current_sessions{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval]) / haproxy_backend_limit_sessions{proxy=~\"$backend\", instance=\"$host\"} * 100)",
+              "expr": "(haproxy_backend_limit_sessions{proxy=~\"$backend\", instance=\"$host\"} > bool 0) * ((max_over_time(haproxy_backend_current_sessions{proxy=~\"$backend\", instance=\"$host\"}[$__rate_interval]) / haproxy_backend_limit_sessions{proxy=~\"$backend\", instance=\"$host\"}) * 100)",
               "interval": "$interval",
               "legendFormat": "{{ proxy }}",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Back - Session usage",
@@ -4128,7 +4867,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -4153,22 +4891,26 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 0,
-            "y": 69
+            "y": 67
           },
           "id": 254,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -4185,8 +4927,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -4200,8 +4941,7 @@
               "legendFormat": "Current active {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Front - Sessions Max",
@@ -4241,7 +4981,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -4266,22 +5005,26 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 12,
-            "y": 69
+            "y": 67
           },
           "id": 256,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -4298,8 +5041,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -4313,8 +5055,7 @@
               "legendFormat": "Current active {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Back - Sessions Max",
@@ -4354,7 +5095,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -4383,19 +5123,23 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 82
+            "y": 78
           },
           "id": 257,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -4412,8 +5156,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Server - Sessions Max",
@@ -4453,7 +5196,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -4478,15 +5220,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 0,
-            "y": 89
+            "y": 85
           },
           "id": 119,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4510,8 +5256,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Front - Failed HTTP header rewrites",
@@ -4551,7 +5296,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -4576,15 +5320,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 13,
+            "h": 11,
             "w": 12,
             "x": 12,
-            "y": 89
+            "y": 85
           },
           "id": 117,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -4608,8 +5356,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Back - Failed HTTP header rewrites",
@@ -4649,7 +5396,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -4678,12 +5424,16 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 102
+            "y": 96
           },
           "id": 137,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -4707,267 +5457,19 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Server - Failed HTTP header rewrites",
           "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "server (-) / client (+)",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 20,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "links": [],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              },
-              "unit": "ops"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/.*Sserver.*/"
-                },
-                "properties": [
-                  {
-                    "id": "custom.transform",
-                    "value": "negative-Y"
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 13,
-            "w": 12,
-            "x": 12,
-            "y": 109
-          },
-          "id": 128,
-          "options": {
-            "legend": {
-              "calcs": ["min", "mean", "max"],
-              "displayMode": "table",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "pluginVersion": "11.6.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "rate(haproxy_backend_client_aborts_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
-              "interval": "$interval",
-              "legendFormat": "Client {{ proxy }}",
-              "metric": "",
-              "range": true,
-              "refId": "A",
-              "step": 240
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "rate(haproxy_backend_server_aborts_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
-              "interval": "$interval",
-              "legendFormat": "Server {{ proxy }}",
-              "metric": "",
-              "range": true,
-              "refId": "B",
-              "step": 240
-            }
-          ],
-          "title": "Back -  Data transfers aborted",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "description": "",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "server (-) / client (+)",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 20,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 1,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "decimals": 1,
-              "links": [],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              },
-              "unit": "ops"
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/.*Sserver.*/"
-                },
-                "properties": [
-                  {
-                    "id": "custom.transform",
-                    "value": "negative-Y"
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 7,
-            "w": 24,
-            "x": 0,
-            "y": 122
-          },
-          "id": 146,
-          "options": {
-            "legend": {
-              "calcs": ["min", "mean", "max"],
-              "displayMode": "table",
-              "placement": "right",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "pluginVersion": "11.6.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "rate(haproxy_server_client_aborts_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
-              "interval": "$interval",
-              "legendFormat": "Client {{ proxy }} / {{ server }}",
-              "metric": "",
-              "range": true,
-              "refId": "A",
-              "step": 240
-            },
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "rate(haproxy_server_server_aborts_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
-              "interval": "$interval",
-              "legendFormat": "Server {{ proxy }} / {{ server }}",
-              "metric": "",
-              "range": true,
-              "refId": "B",
-              "step": 240
-            }
-          ],
-          "title": "Server -  Data transfers aborted",
-          "type": "timeseries"
         }
       ],
       "title": "Sessions",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     },
     {
       "collapsed": true,
@@ -5013,7 +5515,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5038,7 +5539,7 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 0,
             "y": 130
@@ -5046,14 +5547,18 @@
           "id": 132,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -5070,8 +5575,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "haproxy_backend_current_queue",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Back - Average connection time",
@@ -5111,7 +5615,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5136,7 +5639,7 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 12,
             "y": 130
@@ -5144,14 +5647,18 @@
           "id": 178,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -5168,8 +5675,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "haproxy_backend_current_queue",
               "range": true,
-              "refId": "D",
-              "step": 240
+              "refId": "D"
             }
           ],
           "title": "Back - Average total conn. time",
@@ -5209,7 +5715,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5237,19 +5742,23 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 720
+            "y": 141
           },
           "id": 135,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -5266,8 +5775,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "haproxy_backend_current_queue",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Server - Average connection time",
@@ -5307,7 +5815,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5335,19 +5842,23 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 727
+            "y": 148
           },
           "id": 184,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -5364,8 +5875,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "haproxy_backend_current_queue",
               "range": true,
-              "refId": "D",
-              "step": 240
+              "refId": "D"
             }
           ],
           "title": "Server - Average total conn. time",
@@ -5405,7 +5915,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5430,22 +5939,26 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 0,
-            "y": 734
+            "y": 155
           },
           "id": 177,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -5462,8 +5975,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "haproxy_backend_current_queue",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Back - Average response time",
@@ -5503,7 +6015,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5528,22 +6039,26 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 12,
-            "y": 734
+            "y": 155
           },
           "id": 127,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -5560,8 +6075,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Back - Average queue time",
@@ -5601,7 +6115,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5629,19 +6142,23 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 748
+            "y": 166
           },
           "id": 183,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -5658,8 +6175,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "haproxy_backend_current_queue",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Server - Average response time",
@@ -5699,7 +6215,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5727,19 +6242,23 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 755
+            "y": 173
           },
           "id": 133,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -5756,8 +6275,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Server - Average queue time",
@@ -5765,7 +6283,11 @@
         }
       ],
       "title": "Times",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     },
     {
       "collapsed": true,
@@ -5811,7 +6333,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5836,7 +6357,7 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 0,
             "y": 131
@@ -5844,7 +6365,11 @@
           "id": 38,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5868,8 +6393,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Back - UP->DOWN transitions",
@@ -5909,7 +6433,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -5935,7 +6458,7 @@
               {
                 "matcher": {
                   "id": "byRegexp",
-                  "options": "/.*User diff - .*/"
+                  "options": "/.*Weight reduction - .*/"
                 },
                 "properties": [
                   {
@@ -5947,7 +6470,7 @@
             ]
           },
           "gridPos": {
-            "h": 14,
+            "h": 11,
             "w": 12,
             "x": 12,
             "y": 131
@@ -5955,7 +6478,11 @@
           "id": 39,
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -5979,8 +6506,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -5990,11 +6516,10 @@
               "editorMode": "code",
               "expr": "haproxy_backend_uweight{proxy=~\"$backend\", instance=\"$host\"} - haproxy_backend_weight{proxy=~\"$backend\", instance=\"$host\"}",
               "interval": "$interval",
-              "legendFormat": "User diff - {{ proxy }}",
+              "legendFormat": "Weight reduction - {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Back - Service weight",
@@ -6034,7 +6559,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -6063,12 +6587,16 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 145
+            "y": 142
           },
           "id": 56,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -6092,8 +6620,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Server - UP->DOWN transitions",
@@ -6133,7 +6660,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -6159,7 +6685,7 @@
               {
                 "matcher": {
                   "id": "byRegexp",
-                  "options": "/.*User diff - .*/"
+                  "options": "/.*Weight reduction - .*/"
                 },
                 "properties": [
                   {
@@ -6174,19 +6700,23 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 152
+            "y": 149
           },
           "id": 73,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -6203,8 +6733,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -6214,14 +6743,210 @@
               "editorMode": "code",
               "expr": "haproxy_server_uweight{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"} - haproxy_server_weight{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
               "interval": "$interval",
-              "legendFormat": "User diff - {{ proxy }} / {{ server }}",
+              "legendFormat": "Weight reduction - {{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Server - Service weight",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 0,
+            "y": 156
+          },
+          "id": 244,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_backend_active_servers{proxy=~\"$backend\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }}",
+              "metric": "",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Back - Active servers",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 12,
+            "y": 156
+          },
+          "id": 208,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_backend_backup_servers{proxy=~\"$backend\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }}",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Back - Backup servers",
           "type": "timeseries"
         },
         {
@@ -6258,7 +6983,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -6287,12 +7011,16 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 159
+            "y": 167
           },
           "id": 185,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -6316,8 +7044,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Server - Checks failures",
@@ -6357,7 +7084,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -6385,12 +7111,16 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 166
+            "y": 174
           },
           "id": 204,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -6414,8 +7144,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Server - Checks duration",
@@ -6455,7 +7184,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -6484,12 +7212,16 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 173
+            "y": 181
           },
           "id": 144,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -6513,16 +7245,613 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Server - Last session assigned",
           "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 0,
+            "y": 188
+          },
+          "id": 267,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "increase(haproxy_backend_downtime_seconds_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Back - Downtime",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 12,
+            "y": 188
+          },
+          "id": 268,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "increase(haproxy_server_downtime_seconds_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }} / {{ server }}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Server - Downtime",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 0,
+            "y": 199
+          },
+          "id": 269,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_backend_last_session_seconds{proxy=~\"$backend\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Back - Last Session",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 12,
+            "y": 199
+          },
+          "id": 270,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "haproxy_server_check_last_change_seconds{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }} / {{ server }}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Server - Check Last Change",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "ops"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 0,
+            "y": 210
+          },
+          "id": 264,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "rate(haproxy_backend_loadbalanced_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Back - Loadbalanced",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "links": [],
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  }
+                ]
+              },
+              "unit": "ops"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 12,
+            "y": 210
+          },
+          "id": 265,
+          "options": {
+            "legend": {
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "multi",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "11.6.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "editorMode": "code",
+              "expr": "rate(haproxy_server_loadbalanced_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
+              "interval": "$interval",
+              "legendFormat": "{{ proxy }} / {{ server }}",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Server - Loadbalanced",
+          "type": "timeseries"
         }
       ],
       "title": "Health and Weight",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     },
     {
       "collapsed": true,
@@ -6568,7 +7897,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -6614,7 +7942,11 @@
           "id": 121,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6638,8 +7970,7 @@
               "legendFormat": "Lookups {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -6652,8 +7983,7 @@
               "legendFormat": "Hits {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Front - Cache Lookups / Hits",
@@ -6693,7 +8023,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -6739,7 +8068,11 @@
           "id": 139,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6763,8 +8096,7 @@
               "legendFormat": "Lookups {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -6777,8 +8109,7 @@
               "legendFormat": "Hits {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Back - Cache Lookups / Hits",
@@ -6818,7 +8149,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -6871,12 +8201,16 @@
             "h": 11,
             "w": 12,
             "x": 0,
-            "y": 16478
+            "y": 16219
           },
           "id": 231,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -6900,8 +8234,7 @@
               "legendFormat": "IN {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -6914,8 +8247,7 @@
               "legendFormat": "OUT {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -6928,8 +8260,7 @@
               "legendFormat": "Bypass {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Front - Data transfer http compressor",
@@ -6969,7 +8300,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7022,12 +8352,16 @@
             "h": 11,
             "w": 12,
             "x": 12,
-            "y": 16478
+            "y": 16219
           },
           "id": 140,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -7051,8 +8385,7 @@
               "legendFormat": "IN {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -7065,8 +8398,7 @@
               "legendFormat": "OUT {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -7079,8 +8411,7 @@
               "legendFormat": "Bypass {{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Back - Data transfer http compressor",
@@ -7120,7 +8451,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7148,12 +8478,16 @@
             "h": 11,
             "w": 12,
             "x": 0,
-            "y": 16489
+            "y": 16230
           },
           "id": 123,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -7177,8 +8511,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Front - Responses compressed",
@@ -7218,7 +8551,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7230,7 +8562,6 @@
               },
               "links": [],
               "mappings": [],
-              "min": -1,
               "thresholds": {
                 "mode": "absolute",
                 "steps": [
@@ -7247,12 +8578,16 @@
             "h": 11,
             "w": 12,
             "x": 12,
-            "y": 16489
+            "y": 16230
           },
           "id": 141,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -7276,8 +8611,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Back - Responses compressed",
@@ -7285,7 +8619,11 @@
         }
       ],
       "title": "Cache / Compressor",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     },
     {
       "collapsed": true,
@@ -7330,7 +8668,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7377,7 +8714,11 @@
           "id": 113,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -7401,8 +8742,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Front - Status",
@@ -7441,7 +8781,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7488,7 +8827,11 @@
           "id": 238,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -7512,8 +8855,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Back - Status",
@@ -7553,7 +8895,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7592,15 +8933,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
+            "h": 7,
             "w": 24,
             "x": 0,
-            "y": 16338
+            "y": 16220
           },
           "id": 145,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true,
@@ -7609,7 +8954,7 @@
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -7626,8 +8971,7 @@
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Server - Status",
@@ -7667,7 +9011,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7695,15 +9038,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 8,
+            "h": 7,
             "w": 24,
             "x": 0,
-            "y": 16346
+            "y": 16227
           },
           "id": 237,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true,
@@ -7712,7 +9059,7 @@
             },
             "tooltip": {
               "hideZeros": false,
-              "mode": "single",
+              "mode": "multi",
               "sort": "none"
             }
           },
@@ -7729,8 +9076,7 @@
               "legendFormat": "{{ proxy }} / {{ server }} - {{state}}",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Server - Status other",
@@ -7769,7 +9115,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7798,12 +9143,16 @@
             "h": 11,
             "w": 12,
             "x": 0,
-            "y": 16354
+            "y": 16234
           },
           "id": 205,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -7827,8 +9176,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Front - Internal errors",
@@ -7867,7 +9215,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7896,12 +9243,16 @@
             "h": 11,
             "w": 12,
             "x": 12,
-            "y": 16354
+            "y": 16234
           },
           "id": 171,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -7925,8 +9276,7 @@
               "legendFormat": "{{ proxy }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Back - Internal errors",
@@ -7965,7 +9315,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -7985,7 +9334,7 @@
                   }
                 ]
               },
-              "unit": "short"
+              "unit": "eps"
             },
             "overrides": []
           },
@@ -7993,12 +9342,16 @@
             "h": 7,
             "w": 24,
             "x": 0,
-            "y": 16365
+            "y": 16245
           },
           "id": 172,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "right",
               "showLegend": true
@@ -8017,13 +9370,12 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "rate(haproxy_server_internal_errors_total{proxy=~\"$backend\",instance=\"$host\"}[$__rate_interval])",
+              "expr": "rate(haproxy_server_internal_errors_total{proxy=~\"$backend\",server=~\"$server\",instance=\"$host\"}[$__rate_interval])",
               "interval": "$interval",
               "legendFormat": "{{ proxy }} / {{ server }}",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Server - Internal errors",
@@ -8062,7 +9414,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -8090,12 +9441,16 @@
             "h": 11,
             "w": 12,
             "x": 0,
-            "y": 16372
+            "y": 16252
           },
           "id": 173,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -8114,13 +9469,12 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "haproxy_sticktable_size{proxy=~\"$backend\",instance=\"$host\"}",
+              "expr": "haproxy_sticktable_size{name=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
-              "legendFormat": "{{ proxy }}",
+              "legendFormat": "{{ name }} - Size",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -8128,213 +9482,24 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "haproxy_sticktable_used{proxy=~\"$backend\",instance=\"$host\"}",
+              "expr": "haproxy_sticktable_used{name=~\"$backend\",instance=\"$host\"}",
               "interval": "$interval",
-              "legendFormat": "{{ proxy }}",
+              "legendFormat": "{{ name }} - Used",
               "metric": "",
-              "range": true,
-              "refId": "B",
-              "step": 240
-            }
-          ],
-          "title": "Sticktable usage",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 2,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "links": [],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              },
-              "unit": "short"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 11,
-            "w": 12,
-            "x": 12,
-            "y": 16372
-          },
-          "id": 244,
-          "options": {
-            "legend": {
-              "calcs": ["min", "mean", "max"],
-              "displayMode": "table",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "pluginVersion": "11.6.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "haproxy_backend_active_servers{proxy=~\"$backend\",instance=\"$host\"}",
-              "interval": "$interval",
-              "legendFormat": "{{ proxy }}",
-              "metric": "",
-              "range": true,
-              "refId": "A",
-              "step": 240
-            }
-          ],
-          "title": "Back - Active servers",
-          "type": "timeseries"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "palette-classic"
-              },
-              "custom": {
-                "axisBorderShow": false,
-                "axisCenteredZero": false,
-                "axisColorMode": "text",
-                "axisLabel": "",
-                "axisPlacement": "auto",
-                "barAlignment": 0,
-                "barWidthFactor": 0.6,
-                "drawStyle": "line",
-                "fillOpacity": 0,
-                "gradientMode": "none",
-                "hideFrom": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
-                },
-                "insertNulls": false,
-                "lineInterpolation": "linear",
-                "lineWidth": 2,
-                "pointSize": 5,
-                "scaleDistribution": {
-                  "type": "linear"
-                },
-                "showPoints": "never",
-                "spanNulls": false,
-                "stacking": {
-                  "group": "A",
-                  "mode": "none"
-                },
-                "thresholdsStyle": {
-                  "mode": "off"
-                }
-              },
-              "links": [],
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green"
-                  }
-                ]
-              },
-              "unit": "short"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 11,
-            "w": 12,
-            "x": 12,
-            "y": 16383
-          },
-          "id": 208,
-          "options": {
-            "legend": {
-              "calcs": ["min", "mean", "max"],
-              "displayMode": "table",
-              "placement": "bottom",
-              "showLegend": true
-            },
-            "tooltip": {
-              "hideZeros": false,
-              "mode": "multi",
-              "sort": "desc"
-            }
-          },
-          "pluginVersion": "11.6.1",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
-              },
-              "editorMode": "code",
-              "expr": "haproxy_backend_backup_servers{proxy=~\"$backend\",instance=\"$host\"}",
-              "interval": "",
-              "legendFormat": "{{ proxy }}",
               "range": true,
               "refId": "B"
             }
           ],
-          "title": "Back - Backup servers",
+          "title": "Sticktable usage",
           "type": "timeseries"
         }
       ],
       "title": "Status",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     },
     {
       "collapsed": true,
@@ -8379,7 +9544,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -8416,7 +9580,10 @@
                   {
                     "id": "custom.lineStyle",
                     "value": {
-                      "dash": [10, 10],
+                      "dash": [
+                        10,
+                        10
+                      ],
                       "fill": "dash"
                     }
                   },
@@ -8440,7 +9607,11 @@
           "id": 100,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -8464,8 +9635,7 @@
               "legendFormat": "Highest ConnRate reached on this worker process since started (in connections per second)",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -8478,8 +9648,7 @@
               "legendFormat": "Hard limit for ConnRate (global.maxconnrate)",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - Connection rate limits",
@@ -8518,7 +9687,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -8555,7 +9723,10 @@
                   {
                     "id": "custom.lineStyle",
                     "value": {
-                      "dash": [10, 10],
+                      "dash": [
+                        10,
+                        10
+                      ],
                       "fill": "dash"
                     }
                   },
@@ -8579,7 +9750,11 @@
           "id": 249,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -8603,8 +9778,7 @@
               "legendFormat": "Current number of connections on this worker process",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -8617,8 +9791,7 @@
               "legendFormat": "Hard limit on the number of per-process connections (imposed by Memmax_MB or ulimit -n)",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Process - Connections limits",
@@ -8657,7 +9830,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -8693,7 +9865,10 @@
                   {
                     "id": "custom.lineStyle",
                     "value": {
-                      "dash": [10, 10],
+                      "dash": [
+                        10,
+                        10
+                      ],
                       "fill": "dash"
                     }
                   },
@@ -8717,7 +9892,11 @@
           "id": 101,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -8741,8 +9920,7 @@
               "legendFormat": "Highest SessRate reached on this worker process since started (in sessions per second)",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -8755,8 +9933,7 @@
               "legendFormat": "Hard limit for SessRate (global.maxsessrate)",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - Sessions limits",
@@ -8795,7 +9972,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -8832,7 +10008,10 @@
                   {
                     "id": "custom.lineStyle",
                     "value": {
-                      "dash": [10, 10],
+                      "dash": [
+                        10,
+                        10
+                      ],
                       "fill": "dash"
                     }
                   },
@@ -8860,7 +10039,11 @@
           "id": 248,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -8884,8 +10067,7 @@
               "legendFormat": "Highest ConnRate reached on this worker process since started (in connections per second)",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -8898,8 +10080,7 @@
               "legendFormat": "Hard limit for SslRate (global.maxsslrate)",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - SSL conn. rate limits",
@@ -8938,7 +10119,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -8975,7 +10155,10 @@
                   {
                     "id": "custom.lineStyle",
                     "value": {
-                      "dash": [10, 10],
+                      "dash": [
+                        10,
+                        10
+                      ],
                       "fill": "dash"
                     }
                   },
@@ -9003,7 +10186,11 @@
           "id": 252,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -9027,8 +10214,7 @@
               "legendFormat": "SSL endpoints",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -9041,8 +10227,7 @@
               "legendFormat": "Hard limit SSL endpoints",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - SSL conn. limits",
@@ -9081,7 +10266,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -9107,24 +10291,12 @@
               {
                 "matcher": {
                   "id": "byRegexp",
-                  "options": "/.*Backend.*/"
+                  "options": "/.*backend.*/"
                 },
                 "properties": [
                   {
                     "id": "custom.transform",
                     "value": "negative-Y"
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byRegexp",
-                  "options": "/.*Maximum.*/"
-                },
-                "properties": [
-                  {
-                    "id": "custom.fillOpacity",
-                    "value": 0
                   }
                 ]
               }
@@ -9139,7 +10311,11 @@
           "id": 103,
           "options": {
             "legend": {
-              "calcs": ["mean", "lastNotNull", "max"],
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -9163,8 +10339,7 @@
               "legendFormat": "SSL keys created on frontends",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -9177,8 +10352,7 @@
               "legendFormat": "SSL keys created on backend",
               "metric": "",
               "range": true,
-              "refId": "D",
-              "step": 240
+              "refId": "D"
             }
           ],
           "title": "Process - SSL key rate",
@@ -9217,7 +10391,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -9243,7 +10416,7 @@
               {
                 "matcher": {
                   "id": "byRegexp",
-                  "options": "/.*misses.*/"
+                  "options": "/.*Miss.*/"
                 },
                 "properties": [
                   {
@@ -9255,7 +10428,7 @@
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "Connections"
+                  "options": "SSL Connections"
                 },
                 "properties": [
                   {
@@ -9275,7 +10448,11 @@
           "id": 104,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -9299,8 +10476,7 @@
               "legendFormat": "Lookups",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -9313,8 +10489,7 @@
               "legendFormat": "Miss",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -9327,8 +10502,7 @@
               "legendFormat": "SSL Connections",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Process - SSL cache",
@@ -9367,7 +10541,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -9400,7 +10573,11 @@
           "id": 150,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -9424,8 +10601,7 @@
               "legendFormat": "Frontend SSL connections which did not require a new key",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Process - SSL reuse ratio",
@@ -9464,7 +10640,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -9491,7 +10666,7 @@
               {
                 "matcher": {
                   "id": "byRegexp",
-                  "options": "/.*limit.*/"
+                  "options": "/.*[Ll]imit.*/"
                 },
                 "properties": [
                   {
@@ -9501,7 +10676,10 @@
                   {
                     "id": "custom.lineStyle",
                     "value": {
-                      "dash": [10, 10],
+                      "dash": [
+                        10,
+                        10
+                      ],
                       "fill": "dash"
                     }
                   },
@@ -9529,7 +10707,11 @@
           "id": 253,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -9553,8 +10735,7 @@
               "legendFormat": "Amount of memory currently used by HTTP compression",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -9567,8 +10748,7 @@
               "legendFormat": "Limit memory used by HTTP compression, above is auto disabled (in bytes, see global.maxzlibmem)",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - Zlib (HTTP compression) memory limits",
@@ -9576,7 +10756,11 @@
         }
       ],
       "title": "Process Traffic",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     },
     {
       "collapsed": true,
@@ -9622,7 +10806,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -9663,7 +10846,7 @@
             ]
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 0,
             "y": 7260
@@ -9671,7 +10854,11 @@
           "id": 216,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -9695,8 +10882,7 @@
               "legendFormat": "Total number of failed DNS resolutions in current worker process since started",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Process - Failed DNS resolutions",
@@ -9735,7 +10921,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -9755,7 +10940,7 @@
                   }
                 ]
               },
-              "unit": "short"
+              "unit": "ops"
             },
             "overrides": [
               {
@@ -9782,7 +10967,10 @@
                   {
                     "id": "custom.lineStyle",
                     "value": {
-                      "dash": [10, 10],
+                      "dash": [
+                        10,
+                        10
+                      ],
                       "fill": "dash"
                     }
                   },
@@ -9794,11 +10982,23 @@
                     }
                   }
                 ]
+              },
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "/.*limit.*/"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "short"
+                  }
+                ]
               }
             ]
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 8,
             "y": 7260
@@ -9806,7 +11006,11 @@
           "id": 99,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -9827,11 +11031,10 @@
               "editorMode": "code",
               "expr": "haproxy_process_max_pipes{instance=\"$host\"}",
               "interval": "$interval",
-              "legendFormat": "Hard limit on the number of pipes for splicing, 0=unlimited",
+              "legendFormat": "Pipes limit",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -9844,8 +11047,7 @@
               "legendFormat": "Used pipes",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -9858,8 +11060,7 @@
               "legendFormat": "Free pipes",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Process - Pipes",
@@ -9898,7 +11099,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -9924,7 +11124,7 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 16,
             "y": 7260
@@ -9932,7 +11132,11 @@
           "id": 247,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -9956,8 +11160,7 @@
               "legendFormat": "Current number of active listeners",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Process - Listeners",
@@ -9996,7 +11199,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -10035,7 +11237,10 @@
                   {
                     "id": "custom.lineStyle",
                     "value": {
-                      "dash": [10, 10],
+                      "dash": [
+                        10,
+                        10
+                      ],
                       "fill": "dash"
                     }
                   },
@@ -10048,15 +11253,19 @@
             ]
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 0,
-            "y": 7271
+            "y": 7270
           },
           "id": 87,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10080,8 +11289,7 @@
               "legendFormat": "Memory limit; 0=unset",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -10094,8 +11302,7 @@
               "legendFormat": "Memory allocated in pools",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             },
             {
               "datasource": {
@@ -10108,8 +11315,7 @@
               "legendFormat": "Memory used in pools",
               "metric": "",
               "range": true,
-              "refId": "C",
-              "step": 240
+              "refId": "C"
             }
           ],
           "title": "Process - Memory",
@@ -10148,7 +11354,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -10169,20 +11374,24 @@
                   }
                 ]
               },
-              "unit": "short"
+              "unit": "ops"
             },
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 8,
-            "y": 7271
+            "y": 7270
           },
           "id": 88,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10206,8 +11415,7 @@
               "legendFormat": "Failed pool allocations",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Process - Pool allocations",
@@ -10246,7 +11454,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -10272,15 +11479,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 16,
-            "y": 7271
+            "y": 7270
           },
           "id": 109,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10304,8 +11515,7 @@
               "legendFormat": "Current number of active jobs (listeners, sessions, open devices)",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -10318,8 +11528,7 @@
               "legendFormat": "Current number of active jobs that can't be stopped during a soft stop",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - Jobs",
@@ -10358,7 +11567,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -10383,15 +11591,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 0,
-            "y": 7282
+            "y": 7280
           },
           "id": 86,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10415,8 +11627,7 @@
               "legendFormat": "Threads",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -10429,8 +11640,7 @@
               "legendFormat": "Processes",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - Configured Threads / Processes",
@@ -10469,7 +11679,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -10489,20 +11698,24 @@
                   }
                 ]
               },
-              "unit": "short"
+              "unit": "ops"
             },
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 8,
-            "y": 7282
+            "y": 7280
           },
           "id": 111,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10526,8 +11739,7 @@
               "legendFormat": "Total number of dropped logs",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -10540,8 +11752,7 @@
               "legendFormat": "Total number of log messages received by log-forwarding listeners",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - Logs",
@@ -10580,7 +11791,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -10605,15 +11815,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 16,
-            "y": 7282
+            "y": 7280
           },
           "id": 110,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10637,8 +11851,7 @@
               "legendFormat": "Active peers",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -10651,8 +11864,7 @@
               "legendFormat": "Connected peers",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - Peers",
@@ -10691,7 +11903,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -10716,15 +11927,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 0,
-            "y": 7293
+            "y": 7290
           },
           "id": 251,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10748,8 +11963,7 @@
               "legendFormat": "Total number of tasks in the current worker process (active + sleeping)",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -10762,8 +11976,7 @@
               "legendFormat": "Total number of active tasks+tasklets in the current worker process",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - Tasks / Runqueue",
@@ -10802,7 +12015,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -10828,15 +12040,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 8,
-            "y": 7293
+            "y": 7290
           },
           "id": 108,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10860,8 +12076,7 @@
               "legendFormat": "Idle to total ratio over last sample (percent)",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             },
             {
               "datasource": {
@@ -10874,8 +12089,7 @@
               "legendFormat": "Non zero means stopping in progress",
               "metric": "",
               "range": true,
-              "refId": "B",
-              "step": 240
+              "refId": "B"
             }
           ],
           "title": "Process - Idle / Stopping",
@@ -10914,7 +12128,6 @@
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "never",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -10939,15 +12152,19 @@
             "overrides": []
           },
           "gridPos": {
-            "h": 11,
+            "h": 10,
             "w": 8,
             "x": 16,
-            "y": 7293
+            "y": 7290
           },
           "id": 218,
           "options": {
             "legend": {
-              "calcs": ["min", "mean", "max"],
+              "calcs": [
+                "min",
+                "mean",
+                "max"
+              ],
               "displayMode": "table",
               "placement": "bottom",
               "showLegend": true
@@ -10971,8 +12188,7 @@
               "legendFormat": "How long ago this worker process was started",
               "metric": "",
               "range": true,
-              "refId": "A",
-              "step": 240
+              "refId": "A"
             }
           ],
           "title": "Process - Uptime",
@@ -10980,12 +12196,19 @@
         }
       ],
       "title": "Process Misc",
-      "type": "row"
+      "type": "row",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}",
+        "type": "prometheus"
+      }
     }
   ],
   "refresh": "1m",
   "schemaVersion": 41,
-  "tags": ["haproxy", "servers"],
+  "tags": [
+    "haproxy",
+    "servers"
+  ],
   "templating": {
     "list": [
       {
@@ -11011,7 +12234,7 @@
         "name": "host",
         "options": [],
         "query": {
-          "query": "label_values(haproxy_process_nbproc,instance)",
+          "query": "label_values(haproxy_process_start_time_seconds,instance)",
           "refId": "Prometheus-host-Variable-Query"
         },
         "refresh": 1,
@@ -11159,6 +12382,6 @@
   "timezone": "browser",
   "title": "HAProxy",
   "uid": "rEqu1u5ue",
-  "version": 27,
+  "version": 28,
   "weekStart": ""
 }
