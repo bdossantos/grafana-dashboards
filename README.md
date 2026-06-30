@@ -33,6 +33,7 @@ A collection of Grafana dashboards backed by [Prometheus](https://prometheus.io/
 | [Mimir / Writes](prometheus/mimir-writes.json) | Grafana Mimir writes path overview |
 | [Mimir / Writes Networking](prometheus/mimir-writes-networking.json) | Grafana Mimir writes path networking |
 | [Mimir / Writes Resources](prometheus/mimir-writes-resources.json) | Grafana Mimir writes path resource usage |
+| [Memcached](prometheus/memcached.json) | Memcached metrics via the Prometheus memcached exporter |
 | [MySQL](prometheus/mysql-overview.json) | MySQL server metrics via the Prometheus mysqld exporter |
 | [Node Exporter Full](prometheus/node-exporter-full.json) | Comprehensive host metrics via the Prometheus node exporter |
 | [Redis](prometheus/redis.json) | Redis metrics via the Prometheus Redis Exporter 1.x |
