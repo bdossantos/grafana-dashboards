@@ -75,39 +75,29 @@
             "mode": "thresholds"
           },
           "mappings": [],
-          "max": 100,
-          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
-                "value": 0
-              },
-              {
-                "color": "orange",
-                "value": 50
-              },
-              {
                 "color": "green",
-                "value": 75
+                "value": 0
               }
             ]
           },
-          "unit": "percent"
+          "unit": "short"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 4,
         "w": 4,
         "x": 0,
         "y": 0
       },
       "id": 1,
       "options": {
-        "colorMode": "background",
-        "graphMode": "area",
+        "colorMode": "none",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
         "percentChangeColorMode": "standard",
@@ -128,15 +118,15 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "lynis_hardening_index{instance=~\"$instance\"}",
+          "expr": "count(lynis_hardening_index{instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
-          "range": true,
-          "refId": "A"
+          "refId": "A",
+          "instant": true,
+          "range": false
         }
       ],
-      "title": "Hardening Index",
+      "title": "Hosts Reporting",
       "type": "stat"
     },
     {
@@ -168,7 +158,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 4,
         "w": 4,
         "x": 4,
         "y": 0
@@ -176,7 +166,7 @@
       "id": 2,
       "options": {
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
         "percentChangeColorMode": "standard",
@@ -197,15 +187,230 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "lynis_warnings{instance=~\"$instance\"}",
+          "expr": "count(lynis_hardening_index{instance=~\"$instance\"} < 75) or vector(0)",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
-          "range": true,
-          "refId": "A"
+          "refId": "A",
+          "instant": true,
+          "range": false
         }
       ],
-      "title": "Warnings",
+      "title": "Hosts Below Target (<75)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "green",
+                "value": 75
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "avg(lynis_hardening_index{instance=~\"$instance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "refId": "A",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "title": "Avg Hardening Index",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "green",
+                "value": 75
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "min(lynis_hardening_index{instance=~\"$instance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "refId": "A",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "title": "Min Hardening Index",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "sum(lynis_warnings{instance=~\"$instance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "refId": "A",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "title": "Total Warnings",
       "type": "stat"
     },
     {
@@ -237,15 +442,15 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
+        "h": 4,
         "w": 4,
-        "x": 8,
+        "x": 20,
         "y": 0
       },
-      "id": 3,
+      "id": 6,
       "options": {
         "colorMode": "background",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
         "percentChangeColorMode": "standard",
@@ -260,6 +465,229 @@
       },
       "pluginVersion": "12.4.1",
       "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "sum(lynis_suggestions{instance=~\"$instance\"})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "refId": "A",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "title": "Total Suggestions",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "Per-host Lynis summary. One row per host; sort columns to surface the worst hosts.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Hardening Index"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": 0
+                    },
+                    {
+                      "color": "orange",
+                      "value": 50
+                    },
+                    {
+                      "color": "green",
+                      "value": 75
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background",
+                  "mode": "gradient"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Warnings"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background",
+                  "mode": "basic"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Suggestions"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background",
+                  "mode": "basic"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Last Run"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeFromNow"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 9,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": ["sum"],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "displayName": "Hardening Index",
+            "desc": false
+          }
+        ]
+      },
+      "pluginVersion": "12.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "lynis_hardening_index{instance=~\"$instance\"}",
+          "format": "table",
+          "intervalFactor": 2,
+          "refId": "A",
+          "instant": true,
+          "range": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "lynis_warnings{instance=~\"$instance\"}",
+          "format": "table",
+          "intervalFactor": 2,
+          "refId": "B",
+          "instant": true,
+          "range": false
+        },
         {
           "datasource": {
             "type": "prometheus",
@@ -267,65 +695,12 @@
           },
           "editorMode": "code",
           "expr": "lynis_suggestions{instance=~\"$instance\"}",
-          "format": "time_series",
+          "format": "table",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Suggestions",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "rgb(31, 120, 193)",
-            "mode": "fixed"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              }
-            ]
-          },
-          "unit": "short"
+          "refId": "C",
+          "instant": true,
+          "range": false
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 12,
-        "y": 0
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "none",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": ["lastNotNull"],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "12.4.1",
-      "targets": [
         {
           "datasource": {
             "type": "prometheus",
@@ -333,15 +708,77 @@
           },
           "editorMode": "code",
           "expr": "lynis_tests_performed{instance=~\"$instance\"}",
-          "format": "time_series",
+          "format": "table",
           "intervalFactor": 2,
-          "legendFormat": "{{instance}}",
-          "range": true,
-          "refId": "A"
+          "refId": "D",
+          "instant": true,
+          "range": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "lynis_last_run_timestamp{instance=~\"$instance\"} * 1000",
+          "format": "table",
+          "intervalFactor": 2,
+          "refId": "E",
+          "instant": true,
+          "range": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "lynis_version{instance=~\"$instance\"}",
+          "format": "table",
+          "intervalFactor": 2,
+          "refId": "F",
+          "instant": true,
+          "range": false
         }
       ],
-      "title": "Tests Performed",
-      "type": "stat"
+      "title": "Per-Host Summary",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "instance",
+            "mode": "outer"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "pattern": "^instance$|^Value #|^version$"
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Value #F": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "instance": "Host",
+              "Value #A": "Hardening Index",
+              "Value #B": "Warnings",
+              "Value #C": "Suggestions",
+              "Value #D": "Tests Performed",
+              "Value #E": "Last Run",
+              "version": "Version"
+            }
+          }
+        }
+      ],
+      "type": "table"
     },
     {
       "datasource": {
@@ -351,44 +788,52 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "rgb(31, 120, 193)",
-            "mode": "fixed"
+            "mode": "thresholds"
           },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "red",
                 "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "green",
+                "value": 75
               }
             ]
           },
-          "unit": "dateTimeFromNow"
+          "unit": "percent"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 16,
-        "y": 0
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
       },
-      "id": 5,
+      "id": 10,
       "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "auto",
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
         "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "pluginVersion": "12.4.1",
       "targets": [
@@ -398,16 +843,17 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "lynis_last_run_timestamp{instance=~\"$instance\"} * 1000",
+          "expr": "bottomk(10, lynis_hardening_index{instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 2,
+          "refId": "A",
           "legendFormat": "{{instance}}",
-          "range": true,
-          "refId": "A"
+          "instant": true,
+          "range": false
         }
       ],
-      "title": "Last Run",
-      "type": "stat"
+      "title": "Lowest Hardening Index (worst 10)",
+      "type": "bargauge"
     },
     {
       "datasource": {
@@ -417,8 +863,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "fixedColor": "rgb(31, 120, 193)",
-            "mode": "fixed"
+            "mode": "thresholds"
           },
           "mappings": [],
           "thresholds": {
@@ -427,6 +872,10 @@
               {
                 "color": "green",
                 "value": 0
+              },
+              {
+                "color": "red",
+                "value": 1
               }
             ]
           },
@@ -435,26 +884,27 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 6,
-        "w": 4,
-        "x": 20,
-        "y": 0
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
       },
-      "id": 6,
+      "id": 11,
       "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "auto",
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
         "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "value_and_name",
-        "wideLayout": true
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
       },
       "pluginVersion": "12.4.1",
       "targets": [
@@ -464,16 +914,17 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "lynis_version{instance=~\"$instance\"}",
+          "expr": "topk(10, lynis_warnings{instance=~\"$instance\"})",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{version}}",
-          "range": true,
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{instance}}",
+          "instant": true,
+          "range": false
         }
       ],
-      "title": "Version",
-      "type": "stat"
+      "title": "Most Warnings (top 10)",
+      "type": "bargauge"
     },
     {
       "datasource": {
@@ -540,13 +991,13 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 6
+        "y": 24
       },
       "id": 7,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull", "min", "max"],
-          "displayMode": "table",
+          "calcs": [],
+          "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
@@ -640,13 +1091,13 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 6
+        "y": 24
       },
       "id": 8,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull", "min", "max"],
-          "displayMode": "table",
+          "calcs": [],
+          "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
         },
@@ -746,6 +1197,6 @@
   "timezone": "browser",
   "title": "Lynis Security Audit",
   "uid": "lynis-security-audit",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
