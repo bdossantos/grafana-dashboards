@@ -37,6 +37,7 @@ A collection of Grafana dashboards backed by [Prometheus](https://prometheus.io/
 | [MySQL](prometheus/mysql-overview.json) | MySQL server metrics via the Prometheus mysqld exporter |
 | [Node Exporter Full](prometheus/node-exporter-full.json) | Comprehensive host metrics via the Prometheus node exporter |
 | [Redis](prometheus/redis.json) | Redis metrics via the Prometheus Redis Exporter 1.x |
+| [Storage Health](prometheus/storage-health.json) | Fleet NVMe / SSD / HDD health via the node exporter textfile collector |
 | [Thumbor](prometheus/thumbor.json) | Thumbor image service metrics via Prometheus |
 
 ## Usage
@@ -44,6 +45,19 @@ A collection of Grafana dashboards backed by [Prometheus](https://prometheus.io/
 1. In Grafana, go to **Dashboards → Import**.
 2. Click **Upload JSON file** and select the desired `.json` file from the `prometheus/` directory, or paste the raw JSON content.
 3. Select the Prometheus data source and click **Import**.
+
+### Storage Health
+
+The Storage Health dashboard uses metrics from [`nvme_metrics.sh`](https://github.com/bdossantos/prometheus-alert-rules/blob/master/textfile-collector/nvme_metrics.sh) and [`smartmon.sh`](https://github.com/bdossantos/prometheus-alert-rules/blob/master/textfile-collector/smartmon.sh).
+Schedule the appropriate scripts on each server, write their output atomically to `.prom` files in node exporter's configured `--collector.textfile.directory`, and scrape node exporter with Prometheus. The NVMe script requires root, `nvme-cli` and `jq`; the SMART script requires `smartctl` and permission to access the drives. Either collector can be used alone; panels for the other collector will have no data.
+
+Select **Prometheus**, then use the multi-select **Job** and **Instance** filters for a fleet or individual hosts. **NVMe device** filters the NVMe collector's `device` label (such as `nvme0n1`); **SMART disk** independently filters the SMART collector's `disk` label (such as `/dev/sda`). The dashboard includes fleet counts, per-drive health and identity, temperature, NVMe endurance/spare/media errors, SMART sector errors and SSD lifetime indicators, power-on time, and collector diagnostics.
+
+- NVMe and SMART device counts can overlap: do not sum them. SMART's `type` is a transport (such as `sat` or `scsi`), not an SSD/HDD classification.
+- Missing metrics are not treated as healthy or zero. Sleeping/inactive SMART devices may have no health or attribute samples; consult the inactive-device count and collector diagnostics.
+- SMART attributes and their encoding vary by vendor, model and transport. SSD lifetime indicators are normalized vendor scores, not universally comparable percentages. Temperature thresholds are illustrative and should be adapted to drive specifications.
+- `nvme_critical_warning_total` is a current warning bitmask despite its name, so it is not queried with `rate` or `increase`. NVMe endurance and spare metrics are ratios (`1` = 100%).
+- SMART collection age is based on `smartmon_smartctl_run`; compare it with your script schedule. The NVMe script has no run timestamp. Textfile scrape errors cover all textfiles on the selected targets and cannot detect a missing or stale NVMe file; monitor expected file modification times (`node_textfile_mtime_seconds`) and missing targets separately.
 
 ## Development
 

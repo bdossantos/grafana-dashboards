@@ -1,0 +1,928 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "Prometheus scraping node_exporter's textfile collector",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.3.3"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    { "type": "panel", "id": "stat", "name": "Stat", "version": "" },
+    { "type": "panel", "id": "table", "name": "Table", "version": "" },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": { "list": [] },
+  "description": "Fleet NVMe, SSD and HDD health from nvme_metrics.sh and smartmon.sh via node_exporter's textfile collector. NVMe and SMART device counts overlap; missing metrics are not treated as healthy.",
+  "editable": true,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "title": "NVMe textfile collector",
+      "type": "link",
+      "url": "https://github.com/bdossantos/prometheus-alert-rules/blob/master/textfile-collector/nvme_metrics.sh",
+      "targetBlank": true
+    },
+    {
+      "title": "SMART textfile collector",
+      "type": "link",
+      "url": "https://github.com/bdossantos/prometheus-alert-rules/blob/master/textfile-collector/smartmon.sh",
+      "targetBlank": true
+    }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "title": "Reporting targets",
+      "description": "Number of job/instance targets currently exposing either collector's drive metrics. This is not a count of all expected fleet hosts and does not detect missing hosts.",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
+      "fieldConfig": {
+        "defaults": { "unit": "short", "decimals": 0, "noValue": "No data" },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(count by (job, instance) ({__name__=~\"nvme_temperature_celsius|smartmon_device_active\", job=~\"${job:regex}\", instance=~\"${instance:regex}\"}))",
+          "instant": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "NVMe devices",
+      "description": "Devices exposed by nvme_metrics.sh. May also appear in the SMART device count; do not add the two counts.",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
+      "fieldConfig": {
+        "defaults": { "unit": "short", "decimals": 0, "noValue": "No data" },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(nvme_temperature_celsius{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"})",
+          "instant": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "SMART devices",
+      "description": "Devices discovered by smartmon.sh, including inactive devices and NVMe devices. The type label is a smartctl transport, not an SSD/HDD classification.",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
+      "fieldConfig": {
+        "defaults": { "unit": "short", "decimals": 0, "noValue": "No data" },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "count(smartmon_device_active{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"})",
+          "instant": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "NVMe devices with critical warnings",
+      "description": "Nonzero NVMe critical-warning bitmasks. Despite its _total suffix, this metric is a current bitmask, not an event counter. No data does not mean zero warnings.",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "noValue": "No data",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(nvme_critical_warning_total{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"} != bool 0)",
+          "instant": true
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "SMART health failures",
+      "description": "Reported overall-health failures only. Sleeping devices, unsupported health checks and missing collector data are not counted as healthy.",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "noValue": "No data",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(smartmon_device_smart_healthy{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"} == bool 0)",
+          "instant": true
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "SMART inactive devices",
+      "description": "smartmon.sh skips health and attributes when the standby probe exits nonzero. This can indicate a sleeping disk or a probe error, not necessarily a failed drive.",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "noValue": "No data",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(smartmon_device_active{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"} == bool 0)",
+          "instant": true
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "NVMe health",
+      "type": "row",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 4 }
+    },
+    {
+      "id": 8,
+      "title": "NVMe critical-warning bitmask by device",
+      "description": "0 means no critical warning; any nonzero value needs investigation with nvme smart-log. Values are bitmasks, not warning counts.",
+      "type": "table",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 5 },
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 0,
+          "noValue": "No data",
+          "custom": { "cellOptions": { "type": "color-text" } },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "sortBy": [{ "displayName": "Critical-warning bitmask", "desc": true }]
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": { "Time": true, "__name__": true },
+            "renameByName": { "Value": "Critical-warning bitmask" }
+          }
+        }
+      ],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "nvme_critical_warning_total{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"}",
+          "instant": true,
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "NVMe endurance used",
+      "description": "Estimated fraction of rated endurance consumed. 1 = 100%; values can exceed 100%. Warning at 80%, critical at 100%.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 5 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.8 },
+              { "color": "red", "value": 1 }
+            ]
+          },
+          "custom": { "thresholdsStyle": { "mode": "line" } }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull", "max"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "nvme_percentage_used_ratio{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{device}}"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "NVMe temperature",
+      "description": "Celsius as emitted by nvme_metrics.sh. Guide thresholds at 55/70°C are illustrative; consult each drive's specifications.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 13 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 55 },
+              { "color": "red", "value": 70 }
+            ]
+          },
+          "custom": { "thresholdsStyle": { "mode": "line" } }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull", "max"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "nvme_temperature_celsius{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{device}}"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "NVMe available spare vs device threshold",
+      "description": "Available spare and the manufacturer's minimum spare threshold, both exported as ratios. Spare at or below its device threshold requires attention.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 13 },
+      "fieldConfig": {
+        "defaults": { "unit": "percentunit", "min": 0, "max": 1 },
+        "overrides": [
+          {
+            "matcher": { "id": "byFrameRefID", "options": "B" },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": { "fill": "dash", "dash": [5, 5] }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull"]
+        },
+        "tooltip": { "mode": "multi", "sort": "asc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "nvme_available_spare_ratio{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{device}} spare"
+        },
+        {
+          "refId": "B",
+          "expr": "nvme_available_spare_threshold_ratio{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{device}} threshold"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "NVMe lifetime media errors",
+      "description": "Cumulative unrecovered data-integrity errors. Any nonzero value warrants investigation.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 21 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          },
+          "custom": { "thresholdsStyle": { "mode": "line" } }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "nvme_media_errors_total{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{device}}"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "NVMe new error-log entries",
+      "description": "Counter increase over Grafana's rate interval; extrapolation can produce fractional values. Error-log entries are not necessarily media failures. Requires at least two samples.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 21 },
+      "fieldConfig": {
+        "defaults": { "unit": "short", "min": 0 },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull", "max"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "increase(nvme_num_err_log_entries_total{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"}[$__rate_interval])",
+          "legendFormat": "{{job}} / {{instance}} / {{device}}"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "SMART health — SATA / SAS / SSD / HDD (and NVMe where supported)",
+      "type": "row",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 29 }
+    },
+    {
+      "id": 15,
+      "title": "SMART overall health and drive identity",
+      "description": "Latest reported health joined with device identity. 1 = passed, 0 = failed. Inactive disks and devices without a health result are absent, not healthy. type identifies the smartctl transport, not whether media is SSD or HDD.",
+      "type": "table",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 30 },
+      "fieldConfig": {
+        "defaults": { "noValue": "Unknown" },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Health" },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "0": { "text": "FAILED", "color": "red" },
+                      "1": { "text": "PASSED", "color": "green" }
+                    }
+                  }
+                ]
+              },
+              { "id": "custom.cellOptions", "value": { "type": "color-text" } }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "sortBy": [{ "displayName": "Health", "desc": false }]
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": { "Time": true, "__name__": true },
+            "renameByName": { "Value": "Health" }
+          }
+        }
+      ],
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "smartmon_device_smart_healthy{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"} * on (job, instance, disk, type) group_left (device_model, serial_number, model_family, vendor, product) smartmon_device_info{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "instant": true,
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "title": "SMART drive temperature",
+      "description": "Raw temperature attribute, falling back to airflow temperature when the primary attribute is absent. Vendor encoding varies; guide thresholds at 45/55°C are illustrative.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 38 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 45 },
+              { "color": "red", "value": 55 }
+            ]
+          },
+          "custom": { "thresholdsStyle": { "mode": "line" } }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull", "max"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "smartmon_temperature_celsius_raw_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"} or on (job, instance, disk, type) smartmon_airflow_temperature_cel_raw_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{disk}} / {{type}}"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "SMART bad / pending / uncorrectable sectors",
+      "description": "Raw attribute values, not normalized SMART scores. Nonzero pending or uncorrectable sectors need investigation. SCSI grown defects are shown separately in the legend. Availability and interpretation vary by drive.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 38 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          },
+          "custom": { "thresholdsStyle": { "mode": "line" } }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "smartmon_reallocated_sector_ct_raw_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{disk}} / {{type}} reallocated"
+        },
+        {
+          "refId": "B",
+          "expr": "smartmon_current_pending_sector_raw_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{disk}} / {{type}} pending"
+        },
+        {
+          "refId": "C",
+          "expr": "smartmon_offline_uncorrectable_raw_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{disk}} / {{type}} uncorrectable"
+        },
+        {
+          "refId": "D",
+          "expr": "smartmon_grown_defects_count_raw_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{disk}} / {{type}} grown defects"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "title": "SSD reported lifetime remaining",
+      "description": "Normalized vendor-specific SMART values (not raw counters). These attributes commonly represent remaining life, but units and failure thresholds vary by model. Do not compare blindly across vendors; missing attributes mean unsupported, not 100% life.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 46 },
+      "fieldConfig": {
+        "defaults": { "unit": "short", "min": 0 },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull"]
+        },
+        "tooltip": { "mode": "multi", "sort": "asc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "smartmon_percent_lifetime_remain_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{disk}} / {{type}} lifetime remain"
+        },
+        {
+          "refId": "B",
+          "expr": "smartmon_media_wearout_indicator_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{disk}} / {{type}} media wearout"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "SMART interface CRC errors",
+      "description": "Lifetime raw UDMA CRC error count; increases can indicate cabling or interface problems rather than media failure. Exported as a gauge by smartmon.sh.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 46 },
+      "fieldConfig": {
+        "defaults": { "unit": "short", "min": 0, "decimals": 0 },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "smartmon_udma_crc_error_count_raw_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{disk}} / {{type}}"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "Drive power-on time",
+      "description": "Power-on hours converted to seconds for display as a duration. Both collectors can expose the same NVMe drive; series remain separate and must not be summed.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 54 },
+      "fieldConfig": { "defaults": { "unit": "s", "min": 0 }, "overrides": [] },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "nvme_power_on_hours_total{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"} * 3600",
+          "legendFormat": "NVMe {{job}} / {{instance}} / {{device}}"
+        },
+        {
+          "refId": "B",
+          "expr": "smartmon_power_on_hours_raw_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"} * 3600",
+          "legendFormat": "SMART {{job}} / {{instance}} / {{disk}} / {{type}}"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "title": "Drive power cycles",
+      "description": "Lifetime power-cycle counts from each collector. Duplicate coverage of NVMe drives is intentionally kept separate.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 54 },
+      "fieldConfig": {
+        "defaults": { "unit": "short", "min": 0, "decimals": 0 },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "nvme_power_cycles_total{job=~\"${job:regex}\", instance=~\"${instance:regex}\", device=~\"${nvme_device:regex}\"}",
+          "legendFormat": "NVMe {{job}} / {{instance}} / {{device}}"
+        },
+        {
+          "refId": "B",
+          "expr": "smartmon_power_cycle_count_raw_value{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "SMART {{job}} / {{instance}} / {{disk}} / {{type}}"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "Collector diagnostics",
+      "type": "row",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 62 }
+    },
+    {
+      "id": 23,
+      "title": "Time since SMART device collection",
+      "description": "Age of smartmon_smartctl_run, including inactive devices. Compare to your collector schedule; a continuously scraped stale textfile still has an increasing age. An entirely absent metric is not detected here. nvme_metrics.sh does not export a run timestamp.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 63 },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull", "max"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - smartmon_smartctl_run{job=~\"${job:regex}\", instance=~\"${instance:regex}\", disk=~\"${smart_disk:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}} / {{disk}} / {{type}}"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "title": "Node exporter textfile scrape errors",
+      "description": "1 means node_exporter encountered a textfile read/parse error. Covers all textfiles on the selected targets, not only storage metrics. 0 does not prove that the collector scripts ran recently or that their files exist.",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 63 },
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 1,
+          "decimals": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          },
+          "custom": { "thresholdsStyle": { "mode": "line" } }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": ["lastNotNull", "max"]
+        },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "node_textfile_scrape_error{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}",
+          "legendFormat": "{{job}} / {{instance}}"
+        }
+      ]
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 39,
+  "tags": [
+    "prometheus",
+    "node-exporter",
+    "storage",
+    "nvme",
+    "smart",
+    "ssd",
+    "hdd"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "DS_PROMETHEUS",
+        "label": "Prometheus",
+        "type": "datasource",
+        "query": "prometheus",
+        "current": {},
+        "options": [],
+        "refresh": 1
+      },
+      {
+        "name": "job",
+        "label": "Job",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "definition": "label_values({__name__=~\"nvme_temperature_celsius|smartmon_device_active\"}, job)",
+        "query": "label_values({__name__=~\"nvme_temperature_celsius|smartmon_device_active\"}, job)",
+        "current": { "text": "All", "value": "$__all" },
+        "options": [],
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": true,
+        "refresh": 1,
+        "sort": 1
+      },
+      {
+        "name": "instance",
+        "label": "Instance",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "definition": "label_values({__name__=~\"nvme_temperature_celsius|smartmon_device_active\", job=~\"${job:regex}\"}, instance)",
+        "query": "label_values({__name__=~\"nvme_temperature_celsius|smartmon_device_active\", job=~\"${job:regex}\"}, instance)",
+        "current": { "text": "All", "value": "$__all" },
+        "options": [],
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": true,
+        "refresh": 1,
+        "sort": 1
+      },
+      {
+        "name": "nvme_device",
+        "label": "NVMe device",
+        "description": "nvme_metrics.sh device label (for example nvme0n1); only filters NVMe metrics.",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "definition": "label_values(nvme_temperature_celsius{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}, device)",
+        "query": "label_values(nvme_temperature_celsius{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}, device)",
+        "current": { "text": "All", "value": "$__all" },
+        "options": [],
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": true,
+        "refresh": 1,
+        "sort": 1
+      },
+      {
+        "name": "smart_disk",
+        "label": "SMART disk",
+        "description": "smartmon.sh disk label (for example /dev/sda); only filters SMART metrics.",
+        "type": "query",
+        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "definition": "label_values(smartmon_device_active{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}, disk)",
+        "query": "label_values(smartmon_device_active{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}, disk)",
+        "current": { "text": "All", "value": "$__all" },
+        "options": [],
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": true,
+        "refresh": 1,
+        "sort": 1
+      }
+    ]
+  },
+  "time": { "from": "now-24h", "to": "now" },
+  "timepicker": { "refresh_intervals": ["30s", "1m", "5m", "15m", "1h"] },
+  "timezone": "browser",
+  "title": "Storage Health - NVMe / SSD / HDD",
+  "uid": "storage-health",
+  "version": 1
+}
