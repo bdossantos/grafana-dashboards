@@ -56,7 +56,7 @@
       "title": "Reporting targets",
       "description": "Number of job/instance targets currently exposing either collector's drive metrics. This is not a count of all expected fleet hosts and does not detect missing hosts.",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 4, "w": 4, "x": 0, "y": 0 },
       "fieldConfig": {
         "defaults": { "unit": "short", "decimals": 0, "noValue": "No data" },
@@ -84,7 +84,7 @@
       "title": "NVMe devices",
       "description": "Devices exposed by nvme_metrics.sh. May also appear in the SMART device count; do not add the two counts.",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 4, "w": 4, "x": 4, "y": 0 },
       "fieldConfig": {
         "defaults": { "unit": "short", "decimals": 0, "noValue": "No data" },
@@ -112,7 +112,7 @@
       "title": "SMART devices",
       "description": "Devices discovered by smartmon.sh, including inactive devices and NVMe devices. The type label is a smartctl transport, not an SSD/HDD classification.",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 4, "w": 4, "x": 8, "y": 0 },
       "fieldConfig": {
         "defaults": { "unit": "short", "decimals": 0, "noValue": "No data" },
@@ -140,7 +140,7 @@
       "title": "NVMe devices with critical warnings",
       "description": "Nonzero NVMe critical-warning bitmasks. Despite its _total suffix, this metric is a current bitmask, not an event counter. No data does not mean zero warnings.",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 4, "w": 4, "x": 12, "y": 0 },
       "fieldConfig": {
         "defaults": {
@@ -179,7 +179,7 @@
       "title": "SMART health failures",
       "description": "Reported overall-health failures only. Sleeping devices, unsupported health checks and missing collector data are not counted as healthy.",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 4, "w": 4, "x": 16, "y": 0 },
       "fieldConfig": {
         "defaults": {
@@ -218,7 +218,7 @@
       "title": "SMART inactive devices",
       "description": "smartmon.sh skips health and attributes when the standby probe exits nonzero. This can indicate a sleeping disk or a probe error, not necessarily a failed drive.",
       "type": "stat",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
       "fieldConfig": {
         "defaults": {
@@ -265,7 +265,7 @@
       "title": "NVMe critical-warning bitmask by device",
       "description": "0 means no critical warning; any nonzero value needs investigation with nvme smart-log. Values are bitmasks, not warning counts.",
       "type": "table",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 5 },
       "fieldConfig": {
         "defaults": {
@@ -309,7 +309,7 @@
       "title": "NVMe endurance used",
       "description": "Estimated fraction of rated endurance consumed. 1 = 100%; values can exceed 100%. Warning at 80%, critical at 100%.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 5 },
       "fieldConfig": {
         "defaults": {
@@ -348,7 +348,7 @@
       "title": "NVMe temperature",
       "description": "Celsius as emitted by nvme_metrics.sh. Guide thresholds at 55/70°C are illustrative; consult each drive's specifications.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 13 },
       "fieldConfig": {
         "defaults": {
@@ -386,7 +386,7 @@
       "title": "NVMe available spare vs device threshold",
       "description": "Available spare and the manufacturer's minimum spare threshold, both exported as ratios. Spare at or below its device threshold requires attention.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 13 },
       "fieldConfig": {
         "defaults": { "unit": "percentunit", "min": 0, "max": 1 },
@@ -428,7 +428,7 @@
       "title": "NVMe lifetime media errors",
       "description": "Cumulative unrecovered data-integrity errors. Any nonzero value warrants investigation.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 21 },
       "fieldConfig": {
         "defaults": {
@@ -467,7 +467,7 @@
       "title": "NVMe new error-log entries",
       "description": "Counter increase over Grafana's rate interval; extrapolation can produce fractional values. Error-log entries are not necessarily media failures. Requires at least two samples.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 21 },
       "fieldConfig": {
         "defaults": { "unit": "short", "min": 0 },
@@ -502,7 +502,7 @@
       "title": "SMART overall health and drive identity",
       "description": "Latest reported health joined with device identity. 1 = passed, 0 = failed. Inactive disks and devices without a health result are absent, not healthy. type identifies the smartctl transport, not whether media is SSD or HDD.",
       "type": "table",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 24, "x": 0, "y": 30 },
       "fieldConfig": {
         "defaults": { "noValue": "Unknown" },
@@ -554,7 +554,7 @@
       "title": "SMART drive temperature",
       "description": "Raw temperature attribute, falling back to airflow temperature when the primary attribute is absent. Vendor encoding varies; guide thresholds at 45/55°C are illustrative.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 38 },
       "fieldConfig": {
         "defaults": {
@@ -592,7 +592,7 @@
       "title": "SMART bad / pending / uncorrectable sectors",
       "description": "Raw attribute values, not normalized SMART scores. Nonzero pending or uncorrectable sectors need investigation. SCSI grown defects are shown separately in the legend. Availability and interpretation vary by drive.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 38 },
       "fieldConfig": {
         "defaults": {
@@ -646,7 +646,7 @@
       "title": "SSD reported lifetime remaining",
       "description": "Normalized vendor-specific SMART values (not raw counters). These attributes commonly represent remaining life, but units and failure thresholds vary by model. Do not compare blindly across vendors; missing attributes mean unsupported, not 100% life.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 46 },
       "fieldConfig": {
         "defaults": { "unit": "short", "min": 0 },
@@ -678,7 +678,7 @@
       "title": "SMART interface CRC errors",
       "description": "Lifetime raw UDMA CRC error count; increases can indicate cabling or interface problems rather than media failure. Exported as a gauge by smartmon.sh.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 46 },
       "fieldConfig": {
         "defaults": { "unit": "short", "min": 0, "decimals": 0 },
@@ -705,7 +705,7 @@
       "title": "Drive power-on time",
       "description": "Power-on hours converted to seconds for display as a duration. Both collectors can expose the same NVMe drive; series remain separate and must not be summed.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 54 },
       "fieldConfig": { "defaults": { "unit": "s", "min": 0 }, "overrides": [] },
       "options": {
@@ -734,7 +734,7 @@
       "title": "Drive power cycles",
       "description": "Lifetime power-cycle counts from each collector. Duplicate coverage of NVMe drives is intentionally kept separate.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 54 },
       "fieldConfig": {
         "defaults": { "unit": "short", "min": 0, "decimals": 0 },
@@ -774,7 +774,7 @@
       "title": "Time since SMART device collection",
       "description": "Age of smartmon_smartctl_run, including inactive devices. Compare to your collector schedule; a continuously scraped stale textfile still has an increasing age. An entirely absent metric is not detected here. nvme_metrics.sh does not export a run timestamp.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 63 },
       "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
       "options": {
@@ -798,7 +798,7 @@
       "title": "Node exporter textfile scrape errors",
       "description": "1 means node_exporter encountered a textfile read/parse error. Covers all textfiles on the selected targets, not only storage metrics. 0 does not prove that the collector scripts ran recently or that their files exist.",
       "type": "timeseries",
-      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 63 },
       "fieldConfig": {
         "defaults": {
@@ -847,11 +847,11 @@
   "templating": {
     "list": [
       {
-        "name": "DS_PROMETHEUS",
+        "name": "datasource",
         "label": "Prometheus",
         "type": "datasource",
         "query": "prometheus",
-        "current": {},
+        "current": { "text": "${DS_PROMETHEUS}", "value": "${DS_PROMETHEUS}" },
         "options": [],
         "refresh": 1
       },
@@ -859,7 +859,7 @@
         "name": "job",
         "label": "Job",
         "type": "query",
-        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "datasource": { "type": "prometheus", "uid": "${datasource}" },
         "definition": "label_values({__name__=~\"nvme_temperature_celsius|smartmon_device_active\"}, job)",
         "query": "label_values({__name__=~\"nvme_temperature_celsius|smartmon_device_active\"}, job)",
         "current": { "text": "All", "value": "$__all" },
@@ -874,7 +874,7 @@
         "name": "instance",
         "label": "Instance",
         "type": "query",
-        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "datasource": { "type": "prometheus", "uid": "${datasource}" },
         "definition": "label_values({__name__=~\"nvme_temperature_celsius|smartmon_device_active\", job=~\"${job:regex}\"}, instance)",
         "query": "label_values({__name__=~\"nvme_temperature_celsius|smartmon_device_active\", job=~\"${job:regex}\"}, instance)",
         "current": { "text": "All", "value": "$__all" },
@@ -890,7 +890,7 @@
         "label": "NVMe device",
         "description": "nvme_metrics.sh device label (for example nvme0n1); only filters NVMe metrics.",
         "type": "query",
-        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "datasource": { "type": "prometheus", "uid": "${datasource}" },
         "definition": "label_values(nvme_temperature_celsius{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}, device)",
         "query": "label_values(nvme_temperature_celsius{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}, device)",
         "current": { "text": "All", "value": "$__all" },
@@ -906,7 +906,7 @@
         "label": "SMART disk",
         "description": "smartmon.sh disk label (for example /dev/sda); only filters SMART metrics.",
         "type": "query",
-        "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+        "datasource": { "type": "prometheus", "uid": "${datasource}" },
         "definition": "label_values(smartmon_device_active{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}, disk)",
         "query": "label_values(smartmon_device_active{job=~\"${job:regex}\", instance=~\"${instance:regex}\"}, disk)",
         "current": { "text": "All", "value": "$__all" },
